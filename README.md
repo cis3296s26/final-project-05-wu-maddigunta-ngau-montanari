@@ -5,7 +5,9 @@ Transform your daily productivity into an epic adventure. IRLQuestBook is a Java
 To run the project, we use maven as a build system and javafx as our UI library.
 To build and run the project, use the following command:
 
-`$ mvn clean javafx:run`
+``` sh
+$ mvn clean javafx:run
+```
 
 # How to contribute
 Follow this project board to know the latest status of the project: [http://...]([http://...])  
@@ -13,4 +15,6 @@ Follow this project board to know the latest status of the project: [http://...]
 ### How to build
 To build the project, run the following command:
 
-`$ mvn clean build`
+``` sh
+$ mvn clean build
+```
