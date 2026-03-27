@@ -9,7 +9,7 @@ public class Quest {
     String description;
     Boolean completed;
     int XP;
-    private List<Integer> prerequisiteIds = new ArrayList<>();
+    private List<Integer> prerequisiteIds;
 
     //constructor to initialize the quest object
     public Quest(int id, String name, String description, Boolean completed, int XP, List<Integer> prerequisiteIds) {
