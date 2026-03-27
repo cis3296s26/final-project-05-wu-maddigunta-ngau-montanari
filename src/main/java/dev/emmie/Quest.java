@@ -10,15 +10,17 @@ public class Quest {
     Boolean completed;
     int XP;
     private List<Integer> prerequisiteIds;
+    Questline questline;
 
     //constructor to initialize the quest object
-    public Quest(int id, String name, String description, Boolean completed, int XP, List<Integer> prerequisiteIds) {
+    public Quest(int id, String name, String description, Boolean completed, int XP, List<Integer> prerequisiteIds, Questline questline) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.completed = completed;
         this.XP = XP;
         this.prerequisiteIds = new ArrayList<>(prerequisiteIds);
+        this.questline = Questline.MAIN_STORY; //default questline, can be changed later
     }
 
     public String getName() {
