@@ -2,6 +2,7 @@ package dev.emmie;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Quest {
     int id;
@@ -10,6 +11,7 @@ public class Quest {
     Boolean completed;
     int XP;
     private List<Integer> prerequisiteIds;
+    private List<Subtask> subtasks; // list to hold subtasks for this quest
 
     //constructor to initialize the quest object
     public Quest(int id, String name, String description, Boolean completed, int XP, List<Integer> prerequisiteIds) {
@@ -19,6 +21,8 @@ public class Quest {
         this.completed = completed;
         this.XP = XP;
         this.prerequisiteIds = new ArrayList<>(prerequisiteIds);
+        this.subtasks = new ArrayList<>(); // list to hold subtasks for this quest
+        
     }
 
     public String getName() {
@@ -41,12 +45,44 @@ public class Quest {
         this.completed = true;
     }
 
+    // get the list of subtasks for this quest
+    public List<Subtask> getSubtasks() {
+        return subtasks;
+    }
+
+    // method to add subtasks to a quest, allowing the user to input multiple subtasks until they type 'done'
+    public void addSubtask(Scanner scan) {
+        while (true) {
+            System.out.println("Enter a subtask for this quest (or type 'done' to finish):");
+            String title = scan.nextLine();
+
+            if (title.equalsIgnoreCase("done")) {
+                break;
+            }
+
+            if (title.isEmpty()) {
+                System.out.println("Subtask cannot be empty.");
+                continue;
+            }
+
+            // create the subtask object and add it to the list 
+            Subtask subtask = new Subtask(title); 
+            subtasks.add(subtask);
+        }
+    }
+
 
     public void display() {
         System.out.println("Quest Name: " + name);
         System.out.println("Description: " + description);
         System.out.println("Completed: " + completed);
         System.out.println("XP: " + XP);
+
+        // loop to display each subtask for this quest, showing the title and completion status of each subtask
+        System.out.println("Subtasks:");
+        for (Subtask subtask : subtasks) {
+            subtask.display();
+        }
     }
 
     public boolean isLocked(List<Quest> completedQuests) {
