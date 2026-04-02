@@ -105,6 +105,4 @@ public class Quest {
         }
         return false; // All prerequisites are completed, the quest is not locked
     }
-
-
 }
