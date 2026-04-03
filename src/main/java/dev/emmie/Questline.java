@@ -1,18 +1,32 @@
 package dev.emmie;
 
-public enum Questline {
-    MAIN_STORY("Main Quests"),
-    SIDE_QUESTS("Side Quests");
+import java.util.ArrayList;
+import java.util.List;
 
-    private final String displayName;
+public class Questline {
 
-    Questline(String displayName) {
-        this.displayName = displayName;
+    private String name;
+    private List<Quest> quests;
+
+    public Questline(String name) {
+        this.name = name;
+        this.quests = new ArrayList<>();
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public void addQuest(Quest q) {
+        quests.add(q);
     }
 
-    
+    public List<Quest> getQuests() {
+        return quests;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
