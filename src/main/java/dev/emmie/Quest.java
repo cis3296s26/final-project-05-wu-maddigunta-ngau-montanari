@@ -8,13 +8,13 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
-    private List<Quest> next; // only stores the reference to the next quests, not the actual quest objects
-    private List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
+    private transient List<Quest> next; // only stores the reference to the next quests, not the actual quest objects
+    private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
                               // objects
 
     // constructor to initialize the quest object
-    public Quest(int id, String name, String description, boolean isCompleted) {
-        this.id = id;
+    public Quest(String name, String description, boolean isCompleted) {
+        this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
         this.isCompleted = isCompleted;
