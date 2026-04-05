@@ -61,11 +61,11 @@ public class Quest {
         this.description = description;
     }
 
-    public void addPrerequisite(Quest quest) {
+     void addPrerequisite(Quest quest) {//default access modifier, only accessible within the package
         prev.add(quest);
     }
 
-    public void addNextQuest(Quest quest) {
+     void addNextQuest(Quest quest) {//default access modifier, only accessible within the package
         next.add(quest);
     }
 
@@ -90,9 +90,5 @@ public class Quest {
         return "Available";
     }
 
-    public void connect(Quest first, Quest second) {
-        first.addNextQuest(second);
-        second.addPrerequisite(first);
-    }
 
 }
