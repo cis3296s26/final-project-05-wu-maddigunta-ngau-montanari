@@ -8,8 +8,9 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
-    private List<Quest> next; //only stores the reference to the next quests, not the actual quest objects
-    private List<Quest> prev; //only stores the reference to the previous quests, not the actual quest objects
+    private List<Quest> next; // only stores the reference to the next quests, not the actual quest objects
+    private List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
+                              // objects
 
     // constructor to initialize the quest object
     public Quest(int id, String name, String description, boolean isCompleted) {
@@ -61,11 +62,11 @@ public class Quest {
         this.description = description;
     }
 
-     void addPrerequisite(Quest quest) {//default access modifier, only accessible within the package
+    void addPrerequisite(Quest quest) {// default access modifier, only accessible within the package
         prev.add(quest);
     }
 
-     void addNextQuest(Quest quest) {//default access modifier, only accessible within the package
+    void addNextQuest(Quest quest) {// default access modifier, only accessible within the package
         next.add(quest);
     }
 
@@ -73,7 +74,7 @@ public class Quest {
         this.isCompleted = true;
     }
 
-    public boolean isLocked() {
+    private boolean isLocked() {
         for (Quest prerequisite : prev) {
             if (!prerequisite.isCompleted()) {
                 return true;
@@ -82,13 +83,14 @@ public class Quest {
         return false;
     }
 
-    public String getStatus(List<Quest> completedQuests) {
-        if (isCompleted())
-            return "Completed";
-        if (isLocked())
-            return "Locked";
-        return "Available";
+    public QuestStatus getStatus() {
+        if (isCompleted) {
+            return QuestStatus.COMPLETED;
+        }
+        if (isLocked()) {
+            return QuestStatus.LOCKED;
+        }
+        return QuestStatus.AVAILABLE;
     }
-
 
 }
