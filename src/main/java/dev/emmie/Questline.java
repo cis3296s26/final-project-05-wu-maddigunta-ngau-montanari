@@ -17,6 +17,12 @@ public class Questline {
         quests.add(q);
     }
 
+    //LINK TWO QUESTS TOGETHER
+    public void linkQuests(Quest parent, Quest child) {
+        parent.addNextQuest(child);
+        child.addPrerequisite(parent);
+    }
+
     public List<Quest> getQuests() {
         return quests;
     }
@@ -29,4 +35,5 @@ public class Questline {
     public String toString() {
         return name;
     }
+
 }
