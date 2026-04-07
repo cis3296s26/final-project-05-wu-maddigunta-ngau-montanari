@@ -12,10 +12,10 @@ public class JsonPersistence {
 
     // Generic Save Method
     public static <T> void saveToFile(String filePath, T data) {
-        try (FileWriter writer = new FileWriter(filePath)) {
-            gson.toJson(data, writer);
+        try (FileWriter writer = new FileWriter(filePath)) {//auto closes the writer after use
+            gson.toJson(data, writer); //converts all the data to json and writes it to the file(ignores the transient fields like next and prev in Quest)
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//error handling
         }
     }
 
@@ -24,7 +24,7 @@ public class JsonPersistence {
         try (FileReader reader = new FileReader(filePath)) {
             return gson.fromJson(reader, classOfT);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//error handling
             return null;
         }
     }
