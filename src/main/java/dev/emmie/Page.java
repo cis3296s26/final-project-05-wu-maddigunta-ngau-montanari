@@ -23,4 +23,10 @@ public class Page {
 		this.title = title;
 		return title;
 	}
+
+	// method to delete the page
+	public void deletePage() {
+		this.questlines = null;
+		this.title = null;
+	}
 }
