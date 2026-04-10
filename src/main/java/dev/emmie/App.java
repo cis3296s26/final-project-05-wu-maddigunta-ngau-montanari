@@ -1,5 +1,8 @@
 package dev.emmie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -18,23 +21,24 @@ public class App extends Application {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 900, 600);
 
-        // create questmap pane
-        Pane questMap = new Pane();
-
-        // create label
-        Label tooltip = new Label();
-        questMap.getChildren().add(tooltip);
-
         // add two test quests with arrow between
         Quest quest1 = new Quest("test1", "test1", false);
         Quest quest2 = new Quest("test2", "test2", false);
-        QuestView questView1 = new QuestView(quest1, tooltip);
-        QuestView questView2 = new QuestView(quest2, tooltip);
-        questMap.getChildren().add(questView1);
-        questMap.getChildren().add(questView2);
+
+        quest1.addNextQuest(quest2);
+        quest2.addPrerequisite(quest1);
+
+        Questline questline = new Questline("test");
+        questline.addQuest(quest1);
+        questline.addQuest(quest2);
+
+        // create PageView pane
+        List<Questline> questlines = new ArrayList<>();
+        questlines.add(questline);
+        PageView map = new PageView(questlines);
 
         // put questmap in root pane
-        root.setCenter(questMap);
+        root.setCenter(map);
 
         stage.setTitle("IRL Quest Book");
         stage.setScene(scene);
