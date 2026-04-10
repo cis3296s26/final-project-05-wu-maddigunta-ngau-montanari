@@ -8,7 +8,7 @@ public class XP implements Reward{
     }
 
     @Override
-    public void claim_reward(UserProfile user) {
+    public void claimReward(UserProfile user) {
         user.addXP(this.xpAmount);
     }
 
