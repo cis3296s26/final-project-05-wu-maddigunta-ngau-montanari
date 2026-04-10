@@ -8,19 +8,17 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
-    private transient List<Quest> next; // only stores the reference to the next quests, not the actual quest objects
     private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
     // objects
     private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
                                               // objects
 
     // constructor to initialize the quest object
-    public Quest(String name, String description, boolean isCompleted) {
+    public Quest(String name, String description) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
-        this.isCompleted = isCompleted;
-        this.next = new ArrayList<>();
+        this.isCompleted = false;
         this.prev = new ArrayList<>();
         this.subtasks = new ArrayList<>();
 
@@ -48,10 +46,6 @@ public class Quest {
         return id;
     }
 
-    public List<Quest> getNextQuests() {
-        return next;
-    }
-
     public List<Quest> getPrevQuests() {
         return prev;
     }
@@ -73,17 +67,11 @@ public class Quest {
         prev.add(quest);
     }
 
-    void addNextQuest(Quest quest) {// default access modifier, only accessible within the package
-        next.add(quest);
-    }
 
     void removePrerequisite(Quest quest) {// default access modifier, only accessible within the package
         prev.remove(quest);
     }
 
-    void removeNextQuest(Quest quest) {// default access modifier, only accessible within the package
-        next.remove(quest);
-    }
 
     void addSubtask(Subtask subtask) {// default access modifier, only accessible within the package
         subtasks.add(subtask);
