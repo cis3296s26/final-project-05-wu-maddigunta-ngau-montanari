@@ -5,11 +5,13 @@ public class UserProfile {
     private int level;
     private int totalXP;
     private boolean leveledUp;
+    private double XPMultiplier;
 
     public UserProfile(String username) {
         this.username = username;
         this.level = 0;
         this.totalXP = 0;
+        this.XPMultiplier = 1.0;
         this.leveledUp = false;
     }
 
@@ -29,8 +31,12 @@ public class UserProfile {
         return leveledUp;
     }
 
+    public double getXPMultiplier() {
+        return XPMultiplier;
+    }
+
     public void addXP(int amount) {
-        this.totalXP += amount;
+        this.totalXP += (int) (amount * this.XPMultiplier);
         calculateLevel();
     }
 
