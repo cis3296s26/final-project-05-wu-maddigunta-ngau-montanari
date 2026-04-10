@@ -3,7 +3,6 @@ package dev.emmie;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import javafx.scene.paint.Color;
 
 public class QuestView extends StackPane {
@@ -11,38 +10,42 @@ public class QuestView extends StackPane {
     private double offsetY;
     private Rectangle rect;
     private boolean isDragging = false;
+    private Quest quest;
 
-    public QuestView(Quest quest, Label tooltip) {
+    public QuestView(Quest quest, double x, double y, Label tooltip) {
+        // store fields
+        this.quest = quest;
+
         // create quest rectangle
-        this.rect = new Rectangle(0, 0, 30, 30);
-        rect.setFill(Color.TAN);
-        rect.setStroke(Color.BLACK);
+        this.rect = new Rectangle(x, y, 30, 30);
+        this.rect.setFill(Color.TAN);
+        this.rect.setStroke(Color.BLACK);
 
         // add it to pane
-        this.getChildren().add(rect);
+        this.getChildren().add(this.rect);
 
         // handlers for dragging
         this.setOnMousePressed(event -> {
-            isDragging = true;
+            this.isDragging = true;
             tooltip.setVisible(false);
-            offsetX = event.getSceneX() - this.getLayoutX();
-            offsetY = event.getSceneY() - this.getLayoutY();
+            this.offsetX = event.getSceneX() - this.getLayoutX();
+            this.offsetY = event.getSceneY() - this.getLayoutY();
         });
 
         this.setOnMouseDragged(event -> {
-            this.setLayoutX(event.getSceneX() - offsetX);
-            this.setLayoutY(event.getSceneY() - offsetY);
+            this.setLayoutX(event.getSceneX() - this.offsetX);
+            this.setLayoutY(event.getSceneY() - this.offsetY);
         });
 
         this.setOnMouseReleased(event -> {
-            isDragging = false;
+            this.isDragging = false;
         });
 
         // handlers for tooltip config
         this.setOnMouseEntered(event -> {
-            tooltip.setText(quest.getName());
+            tooltip.setText(this.quest.getName());
             tooltip.toFront();
-            if (!isDragging) {
+            if (!this.isDragging) {
                 tooltip.setVisible(true);
             }
         });
@@ -54,7 +57,7 @@ public class QuestView extends StackPane {
         this.setOnMouseMoved(event -> {
             tooltip.setLayoutX(event.getSceneX());
             tooltip.setLayoutY(event.getSceneY() - 20);
-            if (!isDragging) {
+            if (!this.isDragging) {
                 tooltip.setVisible(true);
             }
         });
