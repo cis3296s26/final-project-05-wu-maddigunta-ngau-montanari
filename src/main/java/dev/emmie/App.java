@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -17,9 +18,14 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        // create root and scene
-        BorderPane root = new BorderPane();
+        // create main, root, and scene
+        StackPane root = new StackPane();
+        BorderPane main = new BorderPane();
+        root.getChildren().add(main);
         Scene scene = new Scene(root, 900, 600);
+
+        // create detail panel
+        QuestDetailView details = new QuestDetailView(root);
 
         // add some test quests with arrow between
         Quest quest1 = new Quest("test1", "test1", false);
@@ -42,8 +48,12 @@ public class App extends Application {
         questlines.add(questline);
         PageView map = new PageView(questlines);
 
-        // put questmap in root pane
-        root.setCenter(map);
+        details.setQuest(quest1);
+        details.show();
+
+        // put questmap and detailview in main pane
+        main.setCenter(map);
+        root.getChildren().add(details);
 
         stage.setTitle("IRL Quest Book");
         stage.setScene(scene);
