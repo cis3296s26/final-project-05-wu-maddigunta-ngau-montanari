@@ -1,6 +1,7 @@
 package dev.emmie;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.HashMap;
 
 import javafx.scene.control.Label;
@@ -11,7 +12,7 @@ public class PageView extends Pane {
     private Label tooltip;
     private HashMap<Quest, QuestView> quests;
 
-    public PageView(List<Questline> questlines) {
+    public PageView(List<Questline> questlines, Consumer<Quest> onQuestClick) {
         // setup tooltip
         this.tooltip = new Label();
         this.getChildren().add(this.tooltip);
@@ -24,7 +25,7 @@ public class PageView extends Pane {
             // create views for each quest in questline
             for (Quest q : ql.getQuests()) {
                 // create Questview
-                QuestView view = new QuestView(q, 50, 50, this.tooltip);
+                QuestView view = new QuestView(q, 50, 50, this.tooltip, onQuestClick);
 
                 // add it to the hashmap
                 quests.put(q, view);

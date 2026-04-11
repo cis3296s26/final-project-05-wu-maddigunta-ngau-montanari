@@ -43,13 +43,15 @@ public class App extends Application {
         questline.addQuest(quest3);
         questline.addQuest(quest4);
 
-        // create PageView pane
         List<Questline> questlines = new ArrayList<>();
         questlines.add(questline);
-        PageView map = new PageView(questlines);
 
-        details.setQuest(quest1);
-        details.show();
+        // create PageView pane
+        PageView map = new PageView(questlines, q -> {
+            // this runs on quest click
+            details.setQuest(q);
+            details.show();
+        });
 
         // put questmap and detailview in main pane
         main.setCenter(map);
