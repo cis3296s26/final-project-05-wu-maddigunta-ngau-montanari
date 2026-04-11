@@ -17,12 +17,14 @@ public class QuestView extends StackPane {
         this.quest = quest;
 
         // create quest rectangle
-        this.rect = new Rectangle(x, y, 30, 30);
+        this.rect = new Rectangle(0, 0, 30, 30);
         this.rect.setFill(Color.TAN);
         this.rect.setStroke(Color.BLACK);
 
         // add it to pane
         this.getChildren().add(this.rect);
+        this.setLayoutX(x);
+        this.setLayoutY(y);
 
         // handlers for dragging
         this.setOnMousePressed(event -> {
