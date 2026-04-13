@@ -49,4 +49,9 @@ public class UserProfile {
     public int returnStreak(){
         return this.streak;
     }
+
+    // increment the streak
+	public void incrementStreak() {
+		this.streak++;
+	}
 }
