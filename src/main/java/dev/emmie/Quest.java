@@ -11,15 +11,17 @@ public class Quest {
     private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
     // objects
     private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
-                                              // objects
+                                    // objects
+    private boolean isRepeating;
 
     // constructor to initialize the quest object
-    public Quest(String name, String description) {
+    public Quest(String name, String description, boolean isRepeating) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
         this.isCompleted = false;
         this.prev = new ArrayList<>();
+        this.isRepeating = isRepeating;
         this.subtasks = new ArrayList<>();
 
     }
@@ -54,6 +56,10 @@ public class Quest {
         return subtasks;
     }
 
+    public boolean isRepeating() {
+        return isRepeating;
+    }
+
     // SETTERS FOR QUEST FIELDS
     public void setName(String name) {
         this.name = name;
@@ -63,25 +69,39 @@ public class Quest {
         this.description = description;
     }
 
-    void addPrerequisite(Quest quest) {// default access modifier, only accessible within the package
+    void addPrerequisite(Quest quest) { // default access modifier, only accessible within the package
         prev.add(quest);
     }
 
-
-    void removePrerequisite(Quest quest) {// default access modifier, only accessible within the package
+    void removePrerequisite(Quest quest) { // default access modifier, only accessible within the package
         prev.remove(quest);
     }
 
-
-    void addSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+    void addSubtask(Subtask subtask) { // default access modifier, only accessible within the package
         subtasks.add(subtask);
     }
 
-    void removeSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+    void removeSubtask(Subtask subtask) { // default access modifier, only accessible within the package
         subtasks.remove(subtask);
     }
 
+    void setRepeating(boolean isRepeating) {
+        this.isRepeating = isRepeating;
+    }
+
+    //methods
+    public void resetQuest() {
+        this.isCompleted = false;
+        for (Subtask subtask : subtasks) {
+            subtask.setCompleted(false); // mark all subtasks as not completed when resetting the quest
+        }
+    }
+
     public void markCompleted() {
+        if (isRepeating) {
+            resetQuest();
+            return;
+        }
         this.isCompleted = true;
     }
 
@@ -105,13 +125,18 @@ public class Quest {
     }
 
     public boolean isQuestCompleted() {
-        for (Subtask subtask : subtasks) {
-            if (!subtask.isCompleted()) {
-                return false;
-            }
+        if (isCompleted) {
+            return true;
         }
-        markCompleted();
-        return true;
+        if (!subtasks.isEmpty()) {
+            for (Subtask subtask : subtasks) {
+                if (!subtask.isCompleted()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }

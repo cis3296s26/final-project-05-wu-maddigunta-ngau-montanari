@@ -5,15 +5,14 @@ package dev.emmie;
 public class Subtask {
   private String title; 
   private boolean completed;
-  private transient Quest parentQuest;
 
   // constructor to initialize the subtask object with a title and set completed to false by default
-  public Subtask(String title, Quest parentQuest) {
+  public Subtask(String title) {
       this.title = title;
       this.completed = false;
-      this.parentQuest = parentQuest;
   }
 
+  //getter
   public String getTitle() {
       return title;
   }
@@ -22,9 +21,13 @@ public class Subtask {
       return completed;
   }
 
-  public void markCompleted() {
-      completed = true;
-      parentQuest.isQuestCompleted(); // check if the parent quest is completed after marking the subtask as completed
+  //setter
+  public void setTitle(String title) {
+      this.title = title;
+  }
+
+  public void setCompleted(boolean completed) {
+      this.completed = completed;
   }
 
 }
