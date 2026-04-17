@@ -7,8 +7,6 @@ public class Streak {
 		this.streak = 0;
 	}
 
-
-
 	// get the streak
 	public int getStreak() {
 		return streak;
