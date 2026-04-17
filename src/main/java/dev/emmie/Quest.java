@@ -8,18 +8,19 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
-    private transient List<Quest> next; // only stores the reference to the next quests, not the actual quest objects
     private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
-                              // objects
+    // objects
+    private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
+                                              // objects
 
     // constructor to initialize the quest object
-    public Quest(String name, String description, boolean isCompleted) {
+    public Quest(String name, String description) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
-        this.isCompleted = isCompleted;
-        this.next = new ArrayList<>();
+        this.isCompleted = false;
         this.prev = new ArrayList<>();
+        this.subtasks = new ArrayList<>();
 
     }
 
@@ -45,12 +46,12 @@ public class Quest {
         return id;
     }
 
-    public List<Quest> getNextQuests() {
-        return next;
-    }
-
     public List<Quest> getPrevQuests() {
         return prev;
+    }
+
+    public List<Subtask> getSubtasks() {
+        return subtasks;
     }
 
     // SETTERS FOR QUEST FIELDS
@@ -66,8 +67,18 @@ public class Quest {
         prev.add(quest);
     }
 
-    void addNextQuest(Quest quest) {// default access modifier, only accessible within the package
-        next.add(quest);
+
+    void removePrerequisite(Quest quest) {// default access modifier, only accessible within the package
+        prev.remove(quest);
+    }
+
+
+    void addSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+        subtasks.add(subtask);
+    }
+
+    void removeSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+        subtasks.remove(subtask);
     }
 
     public void markCompleted() {
@@ -91,6 +102,16 @@ public class Quest {
             return QuestStatus.LOCKED;
         }
         return QuestStatus.AVAILABLE;
+    }
+
+    public boolean isQuestCompleted() {
+        for (Subtask subtask : subtasks) {
+            if (!subtask.isCompleted()) {
+                return false;
+            }
+        }
+        markCompleted();
+        return true;
     }
 
 }
