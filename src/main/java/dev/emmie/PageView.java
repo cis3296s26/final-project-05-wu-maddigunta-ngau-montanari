@@ -9,10 +9,13 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
 public class PageView extends Pane {
+    private Page page;
     private Label tooltip;
     private HashMap<Quest, QuestView> quests;
 
     public PageView(Page page, Consumer<Quest> onQuestClick) {
+        this.page = page;
+
         // setup tooltip
         this.tooltip = new Label();
         this.getChildren().add(this.tooltip);
@@ -21,7 +24,7 @@ public class PageView extends Pane {
         this.quests = new HashMap<>();
 
         // iterate through questlines (page) and create QuestViews
-        for (Questline ql : page.getQuestlines()) {
+        for (Questline ql : this.page.getQuestlines()) {
             // create views for each quest in questline
             for (Quest q : ql.getQuests()) {
                 // create Questview

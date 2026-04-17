@@ -43,7 +43,9 @@ public class App extends Application {
         questline.addQuest(quest3);
         questline.addQuest(quest4);
 
-        Page page = new Page(questline, "test");
+        List<Questline> qls = new ArrayList<>();
+        qls.add(questline);
+        Page page = new Page(qls, "test");
         page.addQuestline(questline);
 
         // create PageView pane
