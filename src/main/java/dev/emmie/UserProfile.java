@@ -15,6 +15,7 @@ public class UserProfile {
         this.leveledUp = false;
     }
 
+    //getter
     public String getUsername() {
         return username;
     }
@@ -35,18 +36,25 @@ public class UserProfile {
         return XPMultiplier;
     }
 
-    public void addXP(int amount) {
+    //setter
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setXPMultiplier(double XPMultiplier) {
+        this.XPMultiplier = XPMultiplier;
+    }
+    public void addXP(double amount) {
         this.totalXP += (int) (amount * this.XPMultiplier);
-        calculateLevel();
     }
 
-    private void calculateLevel() { //we may wanna move this out to anotehr clas
+    public boolean isLeveledUp() {
         int oldLevel = this.level;
-        this.level = (this.totalXP / 100) + 1; //basic impl for now 
+        this.level = (this.totalXP / 100) + 1; //basic impl
         if (this.level > oldLevel) {
             this.leveledUp = true;
         } else {
             this.leveledUp = false;
         }
+        return this.leveledUp;
     }
 }
