@@ -29,4 +29,19 @@ public class Page {
 		this.questlines = null;
 		this.title = null;
 	}
+
+	// method quest getter 
+	public List<Questline> getQuestlines() {
+		return questlines;
+	}
+
+	// add questline to the page
+	public void addQuestline(Questline questline) {
+		this.questlines.add(questline);
+	}
+
+	// remove questline from the page
+	public void removeQuestline(Questline questline) {
+		this.questlines.remove(questline);
+	}
 }
