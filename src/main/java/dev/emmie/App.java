@@ -28,10 +28,10 @@ public class App extends Application {
         QuestDetailView details = new QuestDetailView(root);
 
         // add some test quests with arrow between
-        Quest quest1 = new Quest("test1", "test1", false);
-        Quest quest2 = new Quest("test2", "test2", false);
-        Quest quest3 = new Quest("test3", "test3", false);
-        Quest quest4 = new Quest("test4", "test4", false);
+        Quest quest1 = new Quest("test1", "test1");
+        Quest quest2 = new Quest("test2", "test2");
+        Quest quest3 = new Quest("test3", "test3");
+        Quest quest4 = new Quest("test4", "test4");
 
         quest1.addPrerequisite(quest2);
         quest2.addPrerequisite(quest3);
