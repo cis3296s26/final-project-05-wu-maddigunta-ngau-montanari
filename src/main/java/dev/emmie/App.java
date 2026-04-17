@@ -18,10 +18,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) {
-        // create main, root, and scene
+        // create root and scene
         StackPane root = new StackPane();
-        BorderPane main = new BorderPane();
-        root.getChildren().add(main);
         Scene scene = new Scene(root, 900, 600);
 
         // create detail panel
@@ -48,16 +46,20 @@ public class App extends Application {
         Page page = new Page(qls, "test");
         page.addQuestline(questline);
 
-        // create PageView pane
-        PageView map = new PageView(page, q -> {
+        // create questbook
+        QuestBook questBook = new QuestBook(List.of(page));
+        QuestBookView questBookView = new QuestBookView(questBook, q -> {
             // this runs on quest click
             details.setQuest(q);
             details.show();
         });
 
-        // put questmap and detailview in main pane
-        main.setCenter(map);
+        // add qb view and detail panel to root
+        root.getChildren().add(questBookView);
         root.getChildren().add(details);
+
+        // temporarily manually set page
+        questBookView.switchPage(page);
 
         stage.setTitle("IRL Quest Book");
         stage.setScene(scene);
