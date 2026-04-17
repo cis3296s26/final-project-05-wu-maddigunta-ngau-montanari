@@ -29,4 +29,6 @@ public class Page {
 		this.questlines = null;
 		this.title = null;
 	}
+
+	
 }
