@@ -8,19 +8,21 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
+    private Difficulty difficulty;
     private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
     // objects
     private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
                                               // objects
 
     // constructor to initialize the quest object
-    public Quest(String name, String description) {
+    public Quest(String name, String description, Difficulty difficulty) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
         this.isCompleted = false;
+        this.difficulty = difficulty;
         this.prev = new ArrayList<>();
-        this.subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>(); 
 
     }
 
@@ -112,6 +114,16 @@ public class Quest {
         }
         markCompleted();
         return true;
+    }
+
+    // let the user set the difficulty of the quest, default is medium
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    // get the difficulty of the quest
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
 }
