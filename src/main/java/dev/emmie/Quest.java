@@ -8,10 +8,8 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
-    private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
-    // objects
-    private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
-                                    // objects
+    private transient List<Quest> prev;
+    private List<Subtask> subtasks;
 
     // constructor to initialize the quest object
     public Quest(String name, String description) {

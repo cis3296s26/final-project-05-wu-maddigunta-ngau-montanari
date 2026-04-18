@@ -52,8 +52,17 @@ public class App extends Application {
         quest2.addPrerequisite(quest3);
         quest2.addPrerequisite(quest4);
 
-        quest4.addSubtask(new Subtask("test task 1", quest4));
-        quest4.addSubtask(new Subtask("test task 2", quest4));
+        Subtask sub1 = new Subtask("Test subtask 1");
+        Subtask sub2 = new Subtask("Test subtask 2");
+
+        quest1.addSubtask(sub1);
+        quest1.addSubtask(sub2);
+        quest2.addSubtask(sub1);
+        quest2.addSubtask(sub2);
+        quest3.addSubtask(sub1);
+        quest3.addSubtask(sub2);
+        quest4.addSubtask(sub1);
+        quest4.addSubtask(sub2);
 
         Questline questline = new Questline("test");
         questline.addQuest(quest1);

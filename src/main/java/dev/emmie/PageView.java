@@ -32,9 +32,14 @@ public class PageView extends Pane {
         // iterate through questlines (page) and create QuestViews
         for (Questline ql : this.page.getQuestlines()) {
             // create views for each quest in questline
+            int i = 0;
             for (Quest q : ql.getQuests()) {
                 // create Questview
-                QuestView view = new QuestView(q, 50, 50, this.tooltip, onQuestClick);
+                // TODO: quest position should be a part of the Quest model
+                double x = 100 + (i % 2) * 150;
+                double y = 100 + (i / 2) * 150;
+                QuestView view = new QuestView(q, x, y, this.tooltip, onQuestClick);
+                i++;
 
                 // add it to the hashmap
                 quests.put(q, view);
