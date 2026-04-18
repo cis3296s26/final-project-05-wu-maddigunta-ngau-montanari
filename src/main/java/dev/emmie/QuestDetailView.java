@@ -47,7 +47,7 @@ class QuestDetailView extends StackPane {
         // set size of reward box to 40% of vertical space
         this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
         this.rewardBox.prefHeightProperty().bind(infoPanel.heightProperty().multiply(0.4));
-        VBox.setVgrow(descBox, Priority.ALWAYS);
+        VBox.setVgrow(this.descBox, Priority.ALWAYS);
 
         this.infoPanel.getChildren().addAll(this.descBox, this.rewardBox);
 

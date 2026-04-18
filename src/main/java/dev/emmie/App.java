@@ -25,7 +25,24 @@ public class App extends Application {
         // create detail panel
         QuestDetailView details = new QuestDetailView(root);
 
-        // add some test quests with arrow between
+        // create questbook view using test data
+        QuestBook questBook = createTestData();
+        QuestBookView questBookView = new QuestBookView(questBook, q -> {
+            details.setQuest(q);
+            details.show();
+        });
+
+        // add qb view and detail panel to root
+        root.getChildren().add(questBookView);
+        root.getChildren().add(details);
+
+        stage.setTitle("IRL Quest Book");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private QuestBook createTestData() {
+        // #### CREATE TEST DATA ####
         Quest quest1 = new Quest("test1", "test1");
         Quest quest2 = new Quest("test2", "test2");
         Quest quest3 = new Quest("test3", "test3");
@@ -49,21 +66,14 @@ public class App extends Application {
         Page page2 = new Page(qls, "Test page 2");
         Page page3 = new Page(qls, "Test page 3");
 
-        // create questbook
-        QuestBook questBook = new QuestBook(List.of(page1, page2, page3));
-        QuestBookView questBookView = new QuestBookView(questBook, q -> {
-            // this runs on quest click
-            details.setQuest(q);
-            details.show();
-        });
+        List<Page> pages = new ArrayList<>();
+        pages.add(page1);
+        pages.add(page2);
+        pages.add(page3);
 
-        // add qb view and detail panel to root
-        root.getChildren().add(questBookView);
-        root.getChildren().add(details);
+        QuestBook questBook = new QuestBook(pages);
 
-        stage.setTitle("IRL Quest Book");
-        stage.setScene(scene);
-        stage.show();
+        return questBook;
     }
 
     public static void main(String[] args) {
