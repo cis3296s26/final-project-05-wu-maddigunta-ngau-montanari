@@ -19,6 +19,9 @@ public class App extends Application {
         StackPane root = new StackPane();
         Scene scene = new Scene(root, 900, 600);
 
+        // load css
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+
         // create detail panel
         QuestDetailView details = new QuestDetailView(root);
 

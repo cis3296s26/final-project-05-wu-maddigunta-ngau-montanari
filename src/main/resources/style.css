@@ -1,0 +1,26 @@
+.page-btn {
+    -fx-background-color: #E8D5B7;
+    -fx-border-color: #3E2817 transparent;
+    -fx-border-width: 0 0 1 0;
+    -fx-pref-height: 40;
+    -fx-font-size: 16;
+}
+
+.page-btn:hover {
+    -fx-background-color: #D4BC98;
+}
+
+.page-btn.selected {
+    -fx-background-color: #C9A57B;
+}
+
+.page-btn.selected:hover {
+    -fx-background-color: #B89468;
+}
+
+.sidebar {
+    -fx-background-color: #E8D5B7;
+    -fx-border-color: transparent #3E2817 transparent transparent;
+    -fx-border-width: 0 2 0 0;
+}
+
