@@ -74,8 +74,8 @@ public class QuestView extends StackPane {
 
         this.setOnMouseMoved(event -> {
             Point2D local = ((Node) this.getParent()).sceneToLocal(event.getSceneX(), event.getSceneY());
-            tooltip.setLayoutX(local.getX());
-            tooltip.setLayoutY(local.getY() - 20);
+            tooltip.setLayoutX(local.getX() + 15);
+            tooltip.setLayoutY(local.getY() + 5);
             if (!this.isDragging) {
                 tooltip.setVisible(true);
             }

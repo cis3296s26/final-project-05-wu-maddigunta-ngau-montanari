@@ -1,3 +1,7 @@
+.root {
+    -fx-font-family: "Avenir", "Arial", sans-serif;
+}
+
 .page-btn {
     -fx-background-color: #E8D5B7;
     -fx-border-color: #3E2817 transparent;
@@ -24,3 +28,68 @@
     -fx-border-width: 0 2 0 0;
 }
 
+.quest-tooltip {
+    -fx-background-color: #F5E8D3;
+    -fx-border-color: #3E2817;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-padding: 2 6;
+    -fx-font-size: 13;
+}
+
+.quest-detail {
+    -fx-background-color: #E8D5B7;
+    -fx-border-color: #3E2817;
+    -fx-border-width: 2;
+    -fx-padding: 20;
+}
+
+.close-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 18;
+    -fx-cursor: hand;
+}
+
+.detail-title {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
+.section-header {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.info-panel {
+    -fx-border-color: transparent #3E2817 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+    -fx-padding: 10;
+}
+
+.task-panel {
+    -fx-padding: 10;
+}
+
+.reward-box {
+    -fx-border-color: #3E2817 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.task-checkbox {
+    -fx-font-size: 16;
+}
+
+.task-checkbox .box {
+    -fx-background-color: transparent;
+    -fx-border-color: #3E2817;
+    -fx-border-width: 1;
+}
+
+.task-checkbox:selected .mark {
+    -fx-background-color: #3E2817;
+}
+
+.task-list {
+    -fx-padding: 0 0 0 15;
+}

@@ -11,7 +11,7 @@ public class Quest {
     private transient List<Quest> prev; // only stores the reference to the previous quests, not the actual quest
     // objects
     private List<Subtask> subtasks; // only stores the reference to the subtasks, not the actual subtask
-                                              // objects
+                                    // objects
 
     // constructor to initialize the quest object
     public Quest(String name, String description) {
@@ -63,26 +63,24 @@ public class Quest {
         this.description = description;
     }
 
-    void addPrerequisite(Quest quest) {// default access modifier, only accessible within the package
+    public void addPrerequisite(Quest quest) {
         prev.add(quest);
     }
 
-
-    void removePrerequisite(Quest quest) {// default access modifier, only accessible within the package
+    void removePrerequisite(Quest quest) {
         prev.remove(quest);
     }
 
-
-    void addSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+    void addSubtask(Subtask subtask) {
         subtasks.add(subtask);
     }
 
-    void removeSubtask(Subtask subtask) {// default access modifier, only accessible within the package
+    void removeSubtask(Subtask subtask) {
         subtasks.remove(subtask);
     }
 
-    public void markCompleted() {
-        this.isCompleted = true;
+    public void setCompleted(boolean completed) {
+        this.isCompleted = completed;
     }
 
     private boolean isLocked() {
@@ -104,13 +102,14 @@ public class Quest {
         return QuestStatus.AVAILABLE;
     }
 
-    public boolean isQuestCompleted() {
+    public boolean checkCompleted() {
+        // TODO: this should trigger when consumer is fired
         for (Subtask subtask : subtasks) {
-            if (!subtask.isCompleted()) {
+            if (!subtask.getCompleted()) {
                 return false;
             }
         }
-        markCompleted();
+        setCompleted(true);
         return true;
     }
 

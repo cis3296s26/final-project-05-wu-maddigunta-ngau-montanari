@@ -3,6 +3,7 @@ package dev.emmie;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -13,7 +14,7 @@ import javafx.scene.layout.VBox;
 class QuestDetailView extends StackPane {
     private HBox hBox;
     private VBox infoPanel, taskPanel;
-    private VBox descBox, rewardBox;
+    private VBox descBox, rewardBox, taskList;
 
     private Label title, desc;
 
@@ -44,32 +45,32 @@ class QuestDetailView extends StackPane {
         this.rewardBox.getChildren().add(rewards);
 
         // set size of reward box to 40% of vertical space
-        rewardBox.setMinHeight(Region.USE_PREF_SIZE);
-        rewardBox.prefHeightProperty().bind(infoPanel.heightProperty().multiply(0.4));
+        this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
+        this.rewardBox.prefHeightProperty().bind(infoPanel.heightProperty().multiply(0.4));
         VBox.setVgrow(descBox, Priority.ALWAYS);
 
         this.infoPanel.getChildren().addAll(this.descBox, this.rewardBox);
 
         // set up task panel
         Label tasks = new Label("Tasks");
-        this.taskPanel = new VBox(10);
-        this.taskPanel.getChildren().add(tasks);
+        this.taskList = new VBox(10);
+        this.taskPanel = new VBox(15);
+        this.taskList.getStyleClass().add("task-list");
+        this.taskPanel.getChildren().addAll(tasks, this.taskList);
 
         // add main panels to hBox
         this.hBox.getChildren().add(infoPanel);
         this.hBox.getChildren().add(taskPanel);
 
         // add style
-        close.setStyle(
-                "-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 18; -fx-cursor: hand;");
-        this.setStyle("-fx-background-color: #FFF5EE; -fx-border-color: black; -fx-border-width: 2; -fx-padding: 20;");
-        title.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
-        rewards.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
-        tasks.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
-        infoPanel.setStyle(
-                "-fx-border-color: transparent black transparent transparent; -fx-border-width: 0 1 0 0; -fx-padding: 10;");
-        taskPanel.setStyle("-fx-padding: 10;");
-        rewardBox.setStyle("-fx-border-color: black transparent transparent transparent; -fx-border-width: 1 0 0 0;");
+        close.getStyleClass().add("close-btn");
+        this.getStyleClass().add("quest-detail");
+        title.getStyleClass().add("detail-title");
+        rewards.getStyleClass().add("section-header");
+        tasks.getStyleClass().add("section-header");
+        infoPanel.getStyleClass().add("info-panel");
+        taskPanel.getStyleClass().add("task-panel");
+        rewardBox.getStyleClass().add("reward-box");
 
         // center text
         title.setAlignment(Pos.CENTER);
@@ -94,6 +95,16 @@ class QuestDetailView extends StackPane {
     public void setQuest(Quest quest) {
         this.title.setText(quest.getName());
         this.desc.setText(quest.getDescription());
+
+        // set up subtask boxes
+        taskList.getChildren().clear();
+        quest.getSubtasks().forEach(subtask -> {
+            CheckBox cb = new CheckBox(subtask.getName());
+            cb.getStyleClass().add("task-checkbox");
+            cb.setSelected(subtask.getCompleted());
+            cb.setOnAction(e -> subtask.setCompleted(cb.isSelected()));
+            taskList.getChildren().add(cb);
+        });
     }
 
     public void show() {

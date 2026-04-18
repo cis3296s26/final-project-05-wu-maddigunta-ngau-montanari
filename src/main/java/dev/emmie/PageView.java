@@ -18,6 +18,9 @@ public class PageView extends Pane {
 
         // setup tooltip
         this.tooltip = new Label();
+        this.tooltip.getStyleClass().add("quest-tooltip");
+        this.tooltip.setMouseTransparent(true);
+        this.tooltip.setVisible(false);
         this.getChildren().add(this.tooltip);
 
         // setup quests hashmap
