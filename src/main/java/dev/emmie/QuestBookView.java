@@ -10,17 +10,21 @@ import javafx.scene.layout.VBox;
 public class QuestBookView extends BorderPane {
     private QuestBook qb;
     private HashMap<Page, PageView> pages;
-    private VBox sidebar;
 
     public QuestBookView(QuestBook qb, Consumer<Quest> onQuestClick) {
         this.qb = qb;
         this.pages = new HashMap<>();
 
         // create sidebar
-        this.sidebar = new VBox();
+        SidebarView sb = new SidebarView(this.qb, page -> {
+            this.switchPage(page);
+        });
+
+        // add to borderpane
+        this.setLeft(sb);
 
         // create pageviews for pages and add to map
-        for (Page page : qb.getPages()) {
+        for (Page page : this.qb.getPages()) {
             // setup view
             PageView view = new PageView(page, onQuestClick);
 
@@ -29,8 +33,7 @@ public class QuestBookView extends BorderPane {
         }
     }
 
-    // shouldnt really be public..
-    public void switchPage(Page page) {
+    private void switchPage(Page page) {
         // get pageview from map
         PageView pv = pages.get(page);
 

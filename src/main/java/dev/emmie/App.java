@@ -58,9 +58,6 @@ public class App extends Application {
         root.getChildren().add(questBookView);
         root.getChildren().add(details);
 
-        // temporarily manually set page
-        questBookView.switchPage(page);
-
         stage.setTitle("IRL Quest Book");
         stage.setScene(scene);
         stage.show();
