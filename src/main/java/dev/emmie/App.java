@@ -39,10 +39,12 @@ public class App extends Application {
         questline.addQuest(quest4);
 
         List<Questline> qls = List.of(questline);
-        Page page = new Page(qls, "test");
+        Page page1 = new Page(qls, "Test page 1");
+        Page page2 = new Page(qls, "Test page 2");
+        Page page3 = new Page(qls, "Test page 3");
 
         // create questbook
-        QuestBook questBook = new QuestBook(List.of(page));
+        QuestBook questBook = new QuestBook(List.of(page1, page2, page3));
         QuestBookView questBookView = new QuestBookView(questBook, q -> {
             // this runs on quest click
             details.setQuest(q);
