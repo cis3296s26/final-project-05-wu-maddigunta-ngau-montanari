@@ -5,9 +5,6 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -41,10 +38,8 @@ public class App extends Application {
         questline.addQuest(quest3);
         questline.addQuest(quest4);
 
-        List<Questline> qls = new ArrayList<>();
-        qls.add(questline);
+        List<Questline> qls = List.of(questline);
         Page page = new Page(qls, "test");
-        page.addQuestline(questline);
 
         // create questbook
         QuestBook questBook = new QuestBook(List.of(page));

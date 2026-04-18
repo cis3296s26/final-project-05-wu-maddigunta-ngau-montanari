@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import java.util.HashMap;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class QuestBookView extends BorderPane {
@@ -20,8 +21,12 @@ public class QuestBookView extends BorderPane {
             this.switchPage(page);
         });
 
-        // add to borderpane
+        // add sidebar to borderpane
         this.setLeft(sb);
+
+        // set sidebar width to 1/4 of container
+        sb.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
+        sb.setMinWidth(Region.USE_PREF_SIZE);
 
         // create pageviews for pages and add to map
         for (Page page : this.qb.getPages()) {

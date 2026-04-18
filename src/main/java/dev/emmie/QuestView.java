@@ -2,6 +2,8 @@ package dev.emmie;
 
 import java.util.function.Consumer;
 
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
@@ -71,8 +73,9 @@ public class QuestView extends StackPane {
         });
 
         this.setOnMouseMoved(event -> {
-            tooltip.setLayoutX(event.getSceneX());
-            tooltip.setLayoutY(event.getSceneY() - 20);
+            Point2D local = ((Node) this.getParent()).sceneToLocal(event.getSceneX(), event.getSceneY());
+            tooltip.setLayoutX(local.getX());
+            tooltip.setLayoutY(local.getY() - 20);
             if (!this.isDragging) {
                 tooltip.setVisible(true);
             }

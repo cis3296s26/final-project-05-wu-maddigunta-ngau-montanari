@@ -14,9 +14,20 @@ public class SidebarView extends VBox {
             // trigger onPageClick consumer when button clicked
             btn.setOnAction(e -> onPageClick.accept(page));
 
+            // set button width
+            btn.setMaxWidth(Double.MAX_VALUE);
+
             // add button to VBox
             this.getChildren().add(btn);
+
         }
 
+        // add styling
+        String css = """
+                -fx-background-color: #E8D5B7;
+                -fx-border-color: transparent #8B5A3C transparent transparent;
+                -fx-border-width: 0 2 0 0;
+                    """;
+        this.setStyle(css);
     }
 }
