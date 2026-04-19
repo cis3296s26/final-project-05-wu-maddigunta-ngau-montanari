@@ -1,4 +1,4 @@
-package irlquestbook;
+package irlquestbook.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

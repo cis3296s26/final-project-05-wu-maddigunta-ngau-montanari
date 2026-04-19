@@ -1,4 +1,4 @@
-package irlquestbook;
+package irlquestbook.model;
 
 
 // let the user claim and create rewards 

@@ -1,4 +1,4 @@
-package irlquestbook;
+package irlquestbook.model;
 import java.util.List;
 
 public class Page {

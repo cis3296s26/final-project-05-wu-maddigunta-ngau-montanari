@@ -1,7 +1,7 @@
-package irlquestbook;
+package irlquestbook.model;
 
 // messages for when the user completes a quest 
-public enum victoryMessage {
+public enum VictoryMessage {
     VICTORY_MESSAGE_1("Congratulations! You have completed the quest!"),
     VICTORY_MESSAGE_2("Well done! You have successfully completed the quest!"),
     VICTORY_MESSAGE_3("Great job! You have completed the quest!"),
@@ -10,7 +10,7 @@ public enum victoryMessage {
 
     private final String message;
     
-    victoryMessage(String message) {
+    VictoryMessage(String message) {
         this.message = message;
     }
     

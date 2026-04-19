@@ -1,4 +1,4 @@
-package irlquestbook;
+package irlquestbook.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,15 +65,15 @@ public class Quest {
         prev.add(quest);
     }
 
-    void removePrerequisite(Quest quest) {
+    public void removePrerequisite(Quest quest) {
         prev.remove(quest);
     }
 
-    void addSubtask(Subtask subtask) {
+    public void addSubtask(Subtask subtask) {
         subtasks.add(subtask);
     }
 
-    void removeSubtask(Subtask subtask) {
+    public void removeSubtask(Subtask subtask) {
         subtasks.remove(subtask);
     }
 

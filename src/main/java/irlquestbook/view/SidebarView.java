@@ -1,4 +1,5 @@
-package irlquestbook;
+package irlquestbook.view;
+import irlquestbook.model.*;
 
 import java.util.HashMap;
 import java.util.Map;

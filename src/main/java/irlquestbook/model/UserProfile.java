@@ -1,4 +1,4 @@
-package irlquestbook;
+package irlquestbook.model;
 
 public class UserProfile {
     private String username;

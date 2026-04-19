@@ -5,5 +5,7 @@ module irlquestbook {
     requires com.google.gson;
 
     exports irlquestbook;
-
+    exports irlquestbook.model;
+    exports irlquestbook.view;
+    exports irlquestbook.service;
 }
