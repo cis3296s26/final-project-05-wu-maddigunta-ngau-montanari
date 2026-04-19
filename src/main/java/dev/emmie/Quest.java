@@ -8,17 +8,19 @@ public class Quest {
     private String name;
     private String description;
     private boolean isCompleted;
+    private Difficulty difficulty;
     private transient List<Quest> prev;
     private List<Subtask> subtasks;
 
     // constructor to initialize the quest object
-    public Quest(String name, String description) {
+    public Quest(String name, String description, Difficulty difficulty) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
         this.isCompleted = false;
+        this.difficulty = difficulty;
         this.prev = new ArrayList<>();
-        this.subtasks = new ArrayList<>();
+        this.subtasks = new ArrayList<>(); 
 
     }
 
@@ -109,6 +111,16 @@ public class Quest {
         }
         setCompleted(true);
         return true;
+    }
+
+    // let the user set the difficulty of the quest, default is medium
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    // get the difficulty of the quest
+    public Difficulty getDifficulty() {
+        return difficulty;
     }
 
 }
