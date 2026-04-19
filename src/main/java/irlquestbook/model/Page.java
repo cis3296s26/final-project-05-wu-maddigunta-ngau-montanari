@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook.model;
 import java.util.List;
 
 public class Page {

@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook.model;
 
 public class XP implements Reward{
     private int xpAmount;

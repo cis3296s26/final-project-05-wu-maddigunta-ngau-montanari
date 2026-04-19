@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
