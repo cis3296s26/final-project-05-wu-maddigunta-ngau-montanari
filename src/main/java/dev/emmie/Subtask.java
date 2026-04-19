@@ -1,30 +1,24 @@
 package dev.emmie;
 
-
-// want the user to be able to create subtasks for each quest
 public class Subtask {
-  private String title; 
-  private boolean completed;
-  private transient Quest parentQuest;
+    private String title;
+    private boolean completed;
 
-  // constructor to initialize the subtask object with a title and set completed to false by default
-  public Subtask(String title, Quest parentQuest) {
-      this.title = title;
-      this.completed = false;
-      this.parentQuest = parentQuest;
-  }
+    public Subtask(String title) {
+        this.title = title;
+        this.completed = false;
+    }
 
-  public String getTitle() {
-      return title;
-  }
+    public String getName() {
+        return title;
+    }
 
-  public boolean isCompleted() {
-      return completed;
-  }
+    public boolean getCompleted() {
+        return completed;
+    }
 
-  public void markCompleted() {
-      completed = true;
-      parentQuest.isQuestCompleted(); // check if the parent quest is completed after marking the subtask as completed
-  }
-
+    public void setCompleted(boolean set) {
+        completed = set;
+        // TODO: trigger consumer
+    }
 }
