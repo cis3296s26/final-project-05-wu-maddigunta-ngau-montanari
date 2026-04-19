@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 import java.util.function.Consumer;
 

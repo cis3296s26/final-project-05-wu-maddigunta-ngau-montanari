@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

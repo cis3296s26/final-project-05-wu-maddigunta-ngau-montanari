@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 
 // let the user claim and create rewards 

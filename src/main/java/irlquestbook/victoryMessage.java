@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 // messages for when the user completes a quest 
 public enum victoryMessage {

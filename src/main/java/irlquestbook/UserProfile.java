@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 public class UserProfile {
     private String username;

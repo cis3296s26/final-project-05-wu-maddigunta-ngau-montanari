@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook;
 
 public enum QuestStatus {
     COMPLETED("Completed"),
