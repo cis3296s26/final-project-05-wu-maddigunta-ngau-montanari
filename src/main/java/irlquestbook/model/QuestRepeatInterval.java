@@ -1,14 +1,15 @@
+
 package irlquestbook.model;
 
-public enum QuestStatus {
-    COMPLETED("Completed"),
-    LOCKED("Locked"),
-    AVAILABLE("Available"),
-    CLAIMED("Claimed");
-    
+
+public enum QuestRepeatInterval {
+    DAILY("Daily"),
+    WEEKLY("Weekly"),
+    MONTHLY("Monthly");
+
     private final String displayName;
 
-    QuestStatus(String displayName) {
+    QuestRepeatInterval(String displayName) {
         this.displayName = displayName;
     }
 
