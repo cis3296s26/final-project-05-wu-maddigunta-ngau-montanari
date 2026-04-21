@@ -4,8 +4,7 @@ public enum QuestStatus {
     COMPLETED("Completed"),
     LOCKED("Locked"),
     AVAILABLE("Available"),
-    CLAIMED("Claimed");;
-
+    CLAIMED("Claimed");
     private final String displayName;
 
     QuestStatus(String displayName) {

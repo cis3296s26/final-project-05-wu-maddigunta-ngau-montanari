@@ -1,4 +1,6 @@
+
 package irlquestbook.model;
+
 
 public enum QuestRepeatInterval {
     DAILY("Daily"),
