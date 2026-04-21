@@ -70,6 +70,8 @@ public class Quest {
     }
 
     public void addSubtask(Subtask subtask) {
+        // set up consumer to check if the quest is complete when the subtask is marked as complete
+        subtask.setOnComplete(s -> checkCompleted()); 
         subtasks.add(subtask);
     }
 
@@ -101,14 +103,10 @@ public class Quest {
     }
 
     public boolean checkCompleted() {
-        // TODO: this should trigger when consumer is fired
-        for (Subtask subtask : subtasks) {
-            if (!subtask.getCompleted()) {
-                return false;
-            }
-        }
-        setCompleted(true);
-        return true;
+        // check if all subtasks are complete, if they are mark the quest as complete and return true, otherwise return false
+        boolean allDone = subtasks.stream().allMatch(Subtask::getCompleted); // check if all subtasks are complete using stream and allMatch
+        if (allDone) setCompleted(true);
+        return allDone; // return true if all subtasks are complete 
     }
 
 }
