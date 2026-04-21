@@ -1,4 +1,5 @@
-package dev.emmie;
+package irlquestbook.view;
+import irlquestbook.model.*;
 
 import java.util.function.Consumer;
 import java.util.HashMap;

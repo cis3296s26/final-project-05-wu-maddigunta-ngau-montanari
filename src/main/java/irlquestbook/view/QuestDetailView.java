@@ -1,4 +1,5 @@
-package dev.emmie;
+package irlquestbook.view;
+import irlquestbook.model.*;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -10,7 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
-class QuestDetailView extends StackPane {
+public class QuestDetailView extends StackPane {
     private HBox hBox;
     private VBox infoPanel, taskPanel;
     private VBox descBox, rewardBox, taskList;

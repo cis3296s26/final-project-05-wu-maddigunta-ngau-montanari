@@ -1,4 +1,4 @@
-package dev.emmie;
+package irlquestbook.model;
 
 // let the user mark priority of their quests 
 public enum Tag {
