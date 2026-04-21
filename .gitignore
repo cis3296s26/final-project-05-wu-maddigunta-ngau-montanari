@@ -6,3 +6,7 @@
 *.iml
 
 .DS_Store
+
+.settings/
+.classpath
+.project
