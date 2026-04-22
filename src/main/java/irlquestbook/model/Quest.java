@@ -25,7 +25,6 @@ public class Quest {
         this.prev = new ArrayList<>();
         this.rewards = new ArrayList<>();
         this.subtasks = new ArrayList<>();
-
     }
 
     // GETTERS FOR QUEST FIELDS
@@ -185,4 +184,30 @@ public class Quest {
         }
         return QuestStatus.AVAILABLE;
     }
+
+    // Streak 
+
+    // count the number of completed subtasks, which can be used for streaks 
+    private int countCompletedSubtasks() {
+        int count = 0;
+        for (Subtask subtask : subtasks) {
+            if (subtask.getCompleted()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void updateStreak(Streak streak) {
+        if (streak.incrementedToday()) return; // already counted today
+        
+        // if the quest is completed or if the user has completed at least 3 subtasks, we can count it towards the streak
+        boolean subtaskGoalMet = countCompletedSubtasks() >= 3;
+        boolean questDone = checkCompleted(); // check if the quest is complete, streak +1 
+        
+        if (subtaskGoalMet || questDone) {
+            streak.increment();
+        }
+    }
+    
 }
