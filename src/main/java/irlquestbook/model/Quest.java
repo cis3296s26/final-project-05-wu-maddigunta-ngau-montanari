@@ -9,7 +9,7 @@ public class Quest {
     private int id;
     private String name;
     private String description;
-    private QuestRepeatInterval repeatInterval;
+    private Frequency repeatInterval;
     private LocalDateTime lastCompletedAt;
     private transient List<Quest> prev;
     private List<Subtask> subtasks;
@@ -58,7 +58,7 @@ public class Quest {
         return rewards;
     }
 
-    public QuestRepeatInterval getRepeatInterval() {
+    public Frequency getRepeatInterval() {
         return repeatInterval;
     }
 
@@ -95,7 +95,7 @@ public class Quest {
         rewards.remove(reward);
     }
 
-    public void setRepeatInterval(QuestRepeatInterval repeatInterval) {
+    public void setRepeatInterval(Frequency repeatInterval) {
         this.repeatInterval = repeatInterval;
     }
 
@@ -149,12 +149,19 @@ public class Quest {
     }
 
     public boolean checkReset() {
-        if (repeatInterval == null || lastCompletedAt.equals(LocalDateTime.MIN)) {
-            return false;
-        }
+      
         LocalDateTime now = LocalDateTime.now();
-
+        if (repeatInterval == null) return false; // we allowed the constructor to set repeatInterval to null, so we need to check for that case
+        
         switch (repeatInterval) {
+            case NONE:
+                return false; // non-repeatable quests do not reset
+            case ONCE:
+                return false; // once quests do not reset
+            case HOURLY:
+                return lastCompletedAt.getHour() != now.getHour() ||
+                        lastCompletedAt.getDayOfYear() != now.getDayOfYear() ||
+                        lastCompletedAt.getYear() != now.getYear();
             case DAILY:
                 return !lastCompletedAt.toLocalDate().equals(now.toLocalDate());
 
