@@ -13,3 +13,4 @@
 .vscode/
 
 .envrc
+.direnv/
