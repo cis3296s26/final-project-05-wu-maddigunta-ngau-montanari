@@ -1,4 +1,5 @@
 package irlquestbook.view;
+
 import irlquestbook.model.*;
 
 import javafx.geometry.Pos;

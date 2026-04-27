@@ -28,8 +28,6 @@
           buildInputs = [
             jdkWithFX
             mavenWithFX
-            (pkgs.jdt-language-server.override { jdk = jdkWithFX; })
-            pkgs.google-java-format
           ];
 
           shellHook = ''
