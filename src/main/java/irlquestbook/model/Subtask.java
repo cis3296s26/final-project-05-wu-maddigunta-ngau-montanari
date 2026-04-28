@@ -1,24 +1,29 @@
 package irlquestbook.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class Subtask {
     private String title;
-    private boolean completed;
+    private final BooleanProperty completed = new SimpleBooleanProperty(false);
 
     public Subtask(String title) {
         this.title = title;
-        this.completed = false;
     }
 
     public String getName() {
-        return title;
+        return this.title;
     }
 
     public boolean getCompleted() {
-        return completed;
+        return this.completed.get();
     }
 
-    public void setCompleted(boolean set) {
-        completed = set;
-        // TODO: trigger consumer
+    public void setCompleted(boolean val) {
+        this.completed.set(val);
+    }
+
+    public BooleanProperty completedProperty() {
+        return this.completed;
     }
 }

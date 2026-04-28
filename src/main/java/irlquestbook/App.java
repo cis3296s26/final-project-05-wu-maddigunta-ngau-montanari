@@ -47,10 +47,10 @@ public class App extends Application {
 
     private QuestBook createTestData() {
         // #### CREATE TEST DATA ####
-        Quest quest1 = new Quest("test1", "test1");
-        Quest quest2 = new Quest("test2", "test2");
-        Quest quest3 = new Quest("test3", "test3");
-        Quest quest4 = new Quest("test4", "test4");
+        Quest quest1 = new Quest("test1", "test1", 50, 50);
+        Quest quest2 = new Quest("test2", "test2", 50, 100);
+        Quest quest3 = new Quest("test3", "test3", 100, 50);
+        Quest quest4 = new Quest("test4", "test4", 100, 100);
 
         quest1.addPrerequisite(quest2);
         quest2.addPrerequisite(quest3);

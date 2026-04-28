@@ -1,41 +1,42 @@
 package irlquestbook.model;
+
 import java.time.LocalDateTime;
 
 public class TimeReminder {
-	private LocalDateTime time;
-	private String message;
-	private ReminderFrequency frequency;
+    private LocalDateTime time;
+    private String message;
+    private Frequency frequency;
 
-	// reminder time and message
-	public TimeReminder(LocalDateTime time, String message, ReminderFrequency frequency) {
-		this.time = time;
-		this.message = message;
-		this.frequency = frequency;
-	}
+    // reminder time and message
+    public TimeReminder(LocalDateTime time, String message, Frequency frequency) {
+        this.time = time;
+        this.message = message;
+        this.frequency = frequency;
+    }
 
-	// getters
-	public LocalDateTime getTime() {
-		return time;
-	}
+    // getters
+    public LocalDateTime getTime() {
+        return time;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public ReminderFrequency getFrequency() {
-		return frequency;
-	}
+    public Frequency getFrequency() {
+        return frequency;
+    }
 
-	// setters
-	public void setTime(LocalDateTime time) {
-		this.time = time;
-	}
+    // setters
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setFrequency(ReminderFrequency frequency) {
-		this.frequency = frequency;
-	}
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
+    }
 }
