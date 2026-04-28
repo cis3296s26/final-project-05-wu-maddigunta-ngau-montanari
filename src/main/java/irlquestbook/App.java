@@ -52,21 +52,29 @@ public class App extends Application {
         Quest quest3 = new Quest("test3", "test3", 100, 50);
         Quest quest4 = new Quest("test4", "test4", 100, 100);
 
-        quest1.addPrerequisite(quest2);
-        quest2.addPrerequisite(quest3);
-        quest2.addPrerequisite(quest4);
+        quest2.addPrerequisite(quest1);
+        quest3.addPrerequisite(quest2);
+        quest4.addPrerequisite(quest3);
 
         Subtask sub1 = new Subtask("Test subtask 1");
         Subtask sub2 = new Subtask("Test subtask 2");
+        Subtask sub3 = new Subtask("Test subtask 3");
+        Subtask sub4 = new Subtask("Test subtask 4");
+
+        Reward reward1 = new Reward("Test reward 1");
+        Reward reward2 = new Reward("Test reward 2");
+        Reward reward3 = new Reward("Test reward 3");
+        Reward reward4 = new Reward("Test reward 4");
+
+        quest1.addReward(reward1);
+        quest1.addReward(reward2);
+        quest3.addReward(reward3);
+        quest4.addReward(reward4);
 
         quest1.addSubtask(sub1);
-        quest1.addSubtask(sub2);
-        quest2.addSubtask(sub1);
         quest2.addSubtask(sub2);
-        quest3.addSubtask(sub1);
-        quest3.addSubtask(sub2);
-        quest4.addSubtask(sub1);
-        quest4.addSubtask(sub2);
+        quest3.addSubtask(sub3);
+        quest4.addSubtask(sub4);
 
         Questline questline = new Questline("test");
         questline.addQuest(quest1);

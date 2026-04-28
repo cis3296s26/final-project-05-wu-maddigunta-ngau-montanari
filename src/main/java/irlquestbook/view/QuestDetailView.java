@@ -1,7 +1,6 @@
 package irlquestbook.view;
 
 import irlquestbook.model.*;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -16,7 +15,6 @@ public class QuestDetailView extends StackPane {
     private HBox hBox;
     private VBox infoPanel, taskPanel;
     private VBox descBox, rewardBox, taskList;
-
     private Label title, desc;
 
     public QuestDetailView(StackPane root) {

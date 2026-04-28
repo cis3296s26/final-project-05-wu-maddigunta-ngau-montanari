@@ -8,29 +8,34 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
+import javafx.css.PseudoClass;
 
 public class QuestView extends StackPane {
     private double offsetX;
     private double offsetY;
     private double startX;
     private double startY;
-    private Rectangle rect;
     private boolean isDragging = false;
     private Quest quest;
+
+    private static final PseudoClass LOCKED = PseudoClass.getPseudoClass("locked");
+    private static final PseudoClass AVAILABLE = PseudoClass.getPseudoClass("available");
+    private static final PseudoClass COMPLETED = PseudoClass.getPseudoClass("completed");
+    private static final PseudoClass CLAIMED = PseudoClass.getPseudoClass("claimed");
 
     public QuestView(Quest quest, Label tooltip, Consumer<Quest> onClick) {
         // store fields
         this.quest = quest;
 
-        // create quest rectangle
-        this.rect = new Rectangle(0, 0, 30, 30);
-        this.rect.setFill(Color.TAN);
-        this.rect.setStroke(Color.BLACK);
+        // add styling
+        setPrefSize(30, 30);
+        setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
+        getStyleClass().add("quest");
+        quest.stateProperty().addListener((obs, oldState, newState) -> updateStateClass(newState));
+        updateStateClass(quest.stateProperty().get());
 
-        // add it to pane
-        this.getChildren().add(this.rect);
+        // bind pos to quest pos
         layoutXProperty().addListener((obs, oldVal, newVal) -> quest.setX(newVal.doubleValue()));
         layoutYProperty().addListener((obs, oldVal, newVal) -> quest.setY(newVal.doubleValue()));
         this.setLayoutX(this.quest.getX());
@@ -84,5 +89,12 @@ public class QuestView extends StackPane {
                 tooltip.setVisible(true);
             }
         });
+    }
+
+    private void updateStateClass(QuestState s) {
+        pseudoClassStateChanged(LOCKED, s == QuestState.LOCKED);
+        pseudoClassStateChanged(AVAILABLE, s == QuestState.AVAILABLE);
+        pseudoClassStateChanged(COMPLETED, s == QuestState.COMPLETED);
+        pseudoClassStateChanged(CLAIMED, s == QuestState.CLAIMED);
     }
 }
