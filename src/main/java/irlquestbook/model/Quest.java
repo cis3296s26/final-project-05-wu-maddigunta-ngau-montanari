@@ -132,7 +132,8 @@ public class Quest {
         return true;
     }
 
-    public void markCompleted() { //manually mark the quest as completed, which will update the lastCompletedAt time
+    public void markCompleted() { // manually mark the quest as completed, which will update the lastCompletedAt
+                                  // time
         if (checkCompleted()) {
             this.lastCompletedAt = LocalDateTime.now();
         }

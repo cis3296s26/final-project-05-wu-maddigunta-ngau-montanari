@@ -11,3 +11,6 @@
 .classpath
 .project
 .vscode/
+
+.envrc
+.direnv/
