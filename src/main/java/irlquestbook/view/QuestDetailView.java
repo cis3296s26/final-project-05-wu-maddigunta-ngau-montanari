@@ -17,8 +17,9 @@ public class QuestDetailView extends StackPane {
     private VBox lPanel, rPanel;
     private VBox infoBox, rewardBox, taskBox;
     private VBox rewardList, taskList;
-    private Label title, desc;
+    private Label name, desc;
     private Button claim;
+    private Quest quest;
 
     public QuestDetailView(StackPane root) {
         this.setVisible(false);
@@ -38,10 +39,10 @@ public class QuestDetailView extends StackPane {
         this.lPanel = new VBox();
         this.rPanel = new VBox();
 
-        this.title = new Label();
+        this.name = new Label();
         this.desc = new Label();
         this.infoBox = new VBox(10);
-        this.infoBox.getChildren().addAll(this.title, this.desc);
+        this.infoBox.getChildren().addAll(this.name, this.desc);
 
         // set up reward box
         Label rewards = new Label("Rewards");
@@ -70,7 +71,7 @@ public class QuestDetailView extends StackPane {
         // add style
         close.getStyleClass().add("close-btn");
         this.getStyleClass().add("quest-detail");
-        title.getStyleClass().add("detail-title");
+        name.getStyleClass().add("detail-name");
         claim.getStyleClass().add("claim-btn");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
@@ -81,8 +82,8 @@ public class QuestDetailView extends StackPane {
         rewardList.getStyleClass().add("checkbox-list");
 
         // center text
-        title.setAlignment(Pos.CENTER);
-        title.setMaxWidth(Double.MAX_VALUE);
+        name.setAlignment(Pos.CENTER);
+        name.setMaxWidth(Double.MAX_VALUE);
         tasks.setAlignment(Pos.CENTER);
         tasks.setMaxWidth(Double.MAX_VALUE);
 
@@ -101,8 +102,14 @@ public class QuestDetailView extends StackPane {
     }
 
     public void setQuest(Quest quest) {
-        this.title.setText(quest.getName());
-        this.desc.setText(quest.getDescription());
+        if (this.quest != null) {
+            name.textProperty().unbindBidirectional(this.quest.nameProperty());
+            desc.textProperty().unbindBidirectional(this.quest.descriptionProperty());
+        }
+
+        this.quest = quest;
+        name.textProperty().bindBidirectional(quest.nameProperty());
+        desc.textProperty().bindBidirectional(quest.descriptionProperty());
 
         // set up subtask boxes
         taskList.getChildren().clear();

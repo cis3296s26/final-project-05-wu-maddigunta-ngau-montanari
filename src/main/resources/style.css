@@ -51,7 +51,7 @@
     -fx-cursor: hand;
 }
 
-.detail-title {
+.detail-name {
     -fx-font-size: 24;
     -fx-font-weight: bold;
 }
