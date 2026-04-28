@@ -1,34 +1,67 @@
 package irlquestbook.model;
 
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoField;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.beans.Observable;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.ObjectBinding;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+// TODO: repeat quests
 public class Quest {
     private int id;
     private String name;
     private String description;
-    private Frequency repeatInterval;
-    private LocalDateTime lastCompletedAt;
-    private transient List<Quest> prev;
-    private List<Subtask> subtasks;
-    private List<Reward> rewards;
+    private double mapX, mapY;
+
+    private final ObservableList<Quest> prereqs = FXCollections
+            .observableArrayList((Quest q) -> new Observable[] { q.stateProperty() });
+    private final ObservableList<Subtask> subtasks = FXCollections
+            .observableArrayList((Subtask s) -> new Observable[] { s.completedProperty() });
+    private final ObservableList<Reward> rewards = FXCollections
+            .observableArrayList((Reward r) -> new Observable[] { r.claimedProperty() });
+
+    private final ObjectBinding<QuestState> state;
 
     // constructor to initialize the quest object
-    public Quest(String name, String description) {
+    public Quest(String name, String description, double x, double y) {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name = name;
         this.description = description;
-        this.repeatInterval = null;
-        this.lastCompletedAt = LocalDateTime.MIN;
-        this.prev = new ArrayList<>();
-        this.rewards = new ArrayList<>();
-        this.subtasks = new ArrayList<>();
+        this.mapX = x;
+        this.mapY = y;
 
+        // bind quest state to dependent properties
+        state = Bindings.<QuestState>createObjectBinding(() -> {
+            // calculate states based on respective factors
+            boolean unlocked = prereqs.stream().allMatch(q -> {
+                QuestState s = q.stateProperty().get();
+                return s == QuestState.COMPLETED || s == QuestState.CLAIMED;
+            });
+            boolean completed = subtasks.stream().allMatch(Subtask::getCompleted);
+            boolean claimed = rewards.stream().allMatch(Reward::getClaimed);
+
+            // if locked, its locked
+            if (!unlocked)
+                return QuestState.LOCKED;
+
+            // if unlocked, check if uncompleted
+            if (!completed)
+                return QuestState.AVAILABLE;
+
+            // if completed, check if unclaimed
+            if (!claimed)
+                return QuestState.COMPLETED;
+
+            // if claimed, its claimed
+            return QuestState.CLAIMED;
+
+        }, prereqs, subtasks, rewards);
     }
 
-    // GETTERS FOR QUEST FIELDS
+    public ObjectBinding<QuestState> stateProperty() {
+        return this.state;
+    }
+
     public String getName() {
         return name;
     }
@@ -46,23 +79,26 @@ public class Quest {
         return id;
     }
 
-    public List<Quest> getPrevQuests() {
-        return prev;
+    public ObservableList<Quest> getPrereqs() {
+        return prereqs;
     }
 
-    public List<Subtask> getSubtasks() {
+    public ObservableList<Subtask> getSubtasks() {
         return subtasks;
     }
 
-    public List<Reward> getRewards() {
+    public ObservableList<Reward> getRewards() {
         return rewards;
     }
 
-    public Frequency getRepeatInterval() {
-        return repeatInterval;
+    public double getX() {
+        return this.mapX;
     }
 
-    // SETTERS FOR QUEST FIELDS
+    public double getY() {
+        return this.mapY;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -72,11 +108,11 @@ public class Quest {
     }
 
     public void addPrerequisite(Quest quest) {
-        prev.add(quest);
+        prereqs.add(quest);
     }
 
     public void removePrerequisite(Quest quest) {
-        prev.remove(quest);
+        prereqs.remove(quest);
     }
 
     public void addSubtask(Subtask subtask) {
@@ -95,102 +131,11 @@ public class Quest {
         rewards.remove(reward);
     }
 
-    public void setRepeatInterval(Frequency repeatInterval) {
-        this.repeatInterval = repeatInterval;
+    public void setX(double x) {
+        this.mapX = x;
     }
 
-    private boolean checkLocked() {
-        for (Quest prerequisite : prev) {
-            if (!prerequisite.checkCompleted()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkClaimed() {
-        if (rewards.isEmpty()) {
-            return false;
-        }
-        for (Reward reward : rewards) {
-            if (!reward.getClaimed()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkCompleted() {
-        if (subtasks.isEmpty()) {
-            return false;
-        }
-        for (Subtask subtask : subtasks) {
-            if (!subtask.getCompleted()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public void markCompleted() { // manually mark the quest as completed, which will update the lastCompletedAt
-                                  // time
-        if (checkCompleted()) {
-            this.lastCompletedAt = LocalDateTime.now();
-        }
-    }
-
-    public void reset() {
-        this.lastCompletedAt = LocalDateTime.MIN;
-        for (Reward reward : rewards) {
-            reward.setClaimed(false);
-        }
-        for (Subtask subtask : subtasks) {
-            subtask.setCompleted(false);
-        }
-    }
-
-    public boolean checkReset() {
-      
-        LocalDateTime now = LocalDateTime.now();
-        if (repeatInterval == null) return false; // we allowed the constructor to set repeatInterval to null, so we need to check for that case
-        
-        switch (repeatInterval) {
-            case NONE:
-                return false; // non-repeatable quests do not reset
-            case ONCE:
-                return false; // once quests do not reset
-            case HOURLY:
-                return lastCompletedAt.getHour() != now.getHour() ||
-                        lastCompletedAt.getDayOfYear() != now.getDayOfYear() ||
-                        lastCompletedAt.getYear() != now.getYear();
-            case DAILY:
-                return !lastCompletedAt.toLocalDate().equals(now.toLocalDate());
-
-            case WEEKLY:
-                return lastCompletedAt.getYear() != now.getYear() ||
-                        lastCompletedAt.get(ChronoField.ALIGNED_WEEK_OF_YEAR) != now
-                                .get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-            case MONTHLY:
-                return lastCompletedAt.getMonth() != now.getMonth() ||
-                        lastCompletedAt.getYear() != now.getYear();
-            default:
-                return false;
-        }
-    }
-
-    public QuestStatus getStatus() {
-        if (checkReset()) {
-            reset();
-        }
-        if (checkClaimed()) {
-            return QuestStatus.CLAIMED;
-        }
-        if (checkCompleted()) {
-            return QuestStatus.COMPLETED;
-        }
-        if (checkLocked()) {
-            return QuestStatus.LOCKED;
-        }
-        return QuestStatus.AVAILABLE;
+    public void setY(double y) {
+        this.mapY = y;
     }
 }

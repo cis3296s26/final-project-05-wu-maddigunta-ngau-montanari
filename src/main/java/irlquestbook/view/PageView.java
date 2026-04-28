@@ -1,4 +1,5 @@
 package irlquestbook.view;
+
 import irlquestbook.model.*;
 
 import java.util.function.Consumer;
@@ -32,14 +33,9 @@ public class PageView extends Pane {
         // iterate through questlines (page) and create QuestViews
         for (Questline ql : this.page.getQuestlines()) {
             // create views for each quest in questline
-            int i = 0;
             for (Quest q : ql.getQuests()) {
                 // create Questview
-                // TODO: quest position should be a part of the Quest model
-                double x = 100 + (i % 2) * 150;
-                double y = 100 + (i / 2) * 150;
-                QuestView view = new QuestView(q, x, y, this.tooltip, onQuestClick);
-                i++;
+                QuestView view = new QuestView(q, this.tooltip, onQuestClick);
 
                 // add it to the hashmap
                 quests.put(q, view);
@@ -50,7 +46,7 @@ public class PageView extends Pane {
 
             // link up questviews
             for (Quest q : ql.getQuests()) {
-                for (Quest prev : q.getPrevQuests()) {
+                for (Quest prev : q.getPrereqs()) {
                     Line line = connect(q, prev);
                     this.getChildren().add(line);
                     line.toBack();

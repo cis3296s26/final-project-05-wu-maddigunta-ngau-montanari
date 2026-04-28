@@ -1,4 +1,5 @@
 package irlquestbook.view;
+
 import irlquestbook.model.*;
 
 import java.util.function.Consumer;
@@ -19,7 +20,7 @@ public class QuestView extends StackPane {
     private boolean isDragging = false;
     private Quest quest;
 
-    public QuestView(Quest quest, double x, double y, Label tooltip, Consumer<Quest> onClick) {
+    public QuestView(Quest quest, Label tooltip, Consumer<Quest> onClick) {
         // store fields
         this.quest = quest;
 
@@ -30,8 +31,10 @@ public class QuestView extends StackPane {
 
         // add it to pane
         this.getChildren().add(this.rect);
-        this.setLayoutX(x);
-        this.setLayoutY(y);
+        layoutXProperty().addListener((obs, oldVal, newVal) -> quest.setX(newVal.doubleValue()));
+        layoutYProperty().addListener((obs, oldVal, newVal) -> quest.setY(newVal.doubleValue()));
+        this.setLayoutX(this.quest.getX());
+        this.setLayoutY(this.quest.getY());
 
         // handlers for dragging
         this.setOnMousePressed(event -> {
