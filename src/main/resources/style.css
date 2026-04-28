@@ -61,13 +61,12 @@
     -fx-font-weight: bold;
 }
 
-.info-panel {
+.l-panel {
     -fx-border-color: transparent #3E2817 transparent transparent;
     -fx-border-width: 0 1 0 0;
-    -fx-padding: 10;
 }
 
-.task-panel {
+.panel {
     -fx-padding: 10;
 }
 
@@ -76,21 +75,21 @@
     -fx-border-width: 1 0 0 0;
 }
 
-.task-checkbox {
+.checkbox {
     -fx-font-size: 16;
 }
 
-.task-checkbox .box {
+.checkbox .box {
     -fx-background-color: transparent;
     -fx-border-color: #3E2817;
     -fx-border-width: 1;
 }
 
-.task-checkbox:selected .mark {
+.checkbox:selected .mark {
     -fx-background-color: #3E2817;
 }
 
-.task-list {
+.checkbox-list {
     -fx-padding: 0 0 0 15;
 }
 
