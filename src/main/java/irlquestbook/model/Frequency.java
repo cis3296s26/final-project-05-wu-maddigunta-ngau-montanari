@@ -1,15 +1,16 @@
-
 package irlquestbook.model;
 
-
-public enum QuestRepeatInterval {
+public enum Frequency {
+    NONE("None"),
+    ONCE("Once"),
+    HOURLY("Hourly"),
     DAILY("Daily"),
     WEEKLY("Weekly"),
     MONTHLY("Monthly");
 
     private final String displayName;
 
-    QuestRepeatInterval(String displayName) {
+    Frequency(String displayName) {
         this.displayName = displayName;
     }
 
