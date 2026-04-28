@@ -1,6 +1,7 @@
 package irlquestbook.view;
 
 import irlquestbook.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -13,9 +14,11 @@ import javafx.scene.layout.VBox;
 
 public class QuestDetailView extends StackPane {
     private HBox hBox;
-    private VBox infoPanel, taskPanel;
-    private VBox descBox, rewardBox, taskList;
+    private VBox lPanel, rPanel;
+    private VBox infoBox, rewardBox, taskBox;
+    private VBox rewardList, taskList;
     private Label title, desc;
+    private Button claim;
 
     public QuestDetailView(StackPane root) {
         this.setVisible(false);
@@ -32,44 +35,50 @@ public class QuestDetailView extends StackPane {
         this.getChildren().addAll(hBox, close);
 
         // set up info panel
-        this.infoPanel = new VBox();
+        this.lPanel = new VBox();
+        this.rPanel = new VBox();
 
         this.title = new Label();
         this.desc = new Label();
-        this.descBox = new VBox(10);
-        this.descBox.getChildren().addAll(this.title, this.desc);
+        this.infoBox = new VBox(10);
+        this.infoBox.getChildren().addAll(this.title, this.desc);
 
+        // set up reward box
         Label rewards = new Label("Rewards");
-        this.rewardBox = new VBox(10);
-        this.rewardBox.getChildren().add(rewards);
+        this.rewardList = new VBox(10);
+        this.rewardBox = new VBox(15);
+        this.claim = new Button("Claim all rewards");
+        this.rewardBox.getChildren().addAll(rewards, rewardList, claim);
 
-        // set size of reward box to 40% of vertical space
         this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
-        this.rewardBox.prefHeightProperty().bind(infoPanel.heightProperty().multiply(0.4));
-        VBox.setVgrow(this.descBox, Priority.ALWAYS);
+        this.rewardBox.prefHeightProperty().bind(lPanel.heightProperty().multiply(0.4));
+        VBox.setVgrow(this.infoBox, Priority.ALWAYS);
 
-        this.infoPanel.getChildren().addAll(this.descBox, this.rewardBox);
+        this.lPanel.getChildren().addAll(this.infoBox, this.rewardBox);
 
         // set up task panel
         Label tasks = new Label("Tasks");
         this.taskList = new VBox(10);
-        this.taskPanel = new VBox(15);
-        this.taskList.getStyleClass().add("task-list");
-        this.taskPanel.getChildren().addAll(tasks, this.taskList);
+        this.taskBox = new VBox(15);
+        this.taskBox.getChildren().addAll(tasks, this.taskList);
+        this.rPanel.getChildren().add(taskBox);
 
         // add main panels to hBox
-        this.hBox.getChildren().add(infoPanel);
-        this.hBox.getChildren().add(taskPanel);
+        this.hBox.getChildren().add(lPanel);
+        this.hBox.getChildren().add(rPanel);
 
         // add style
         close.getStyleClass().add("close-btn");
         this.getStyleClass().add("quest-detail");
         title.getStyleClass().add("detail-title");
+        claim.getStyleClass().add("claim-btn");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
-        infoPanel.getStyleClass().add("info-panel");
-        taskPanel.getStyleClass().add("task-panel");
+        lPanel.getStyleClass().addAll("panel", "l-panel");
+        rPanel.getStyleClass().add("panel");
         rewardBox.getStyleClass().add("reward-box");
+        taskList.getStyleClass().add("checkbox-list");
+        rewardList.getStyleClass().add("checkbox-list");
 
         // center text
         title.setAlignment(Pos.CENTER);
@@ -78,8 +87,8 @@ public class QuestDetailView extends StackPane {
         tasks.setMaxWidth(Double.MAX_VALUE);
 
         // bind size of vBoxes to pane
-        infoPanel.prefWidthProperty().bind(this.widthProperty().divide(2));
-        taskPanel.prefWidthProperty().bind(this.widthProperty().divide(2));
+        lPanel.prefWidthProperty().bind(this.widthProperty().divide(2));
+        rPanel.prefWidthProperty().bind(this.widthProperty().divide(2));
 
         // bind size of detail view to root
         prefWidthProperty().bind(root.widthProperty().multiply(0.9));
@@ -99,11 +108,38 @@ public class QuestDetailView extends StackPane {
         taskList.getChildren().clear();
         quest.getSubtasks().forEach(subtask -> {
             CheckBox cb = new CheckBox(subtask.getName());
-            cb.getStyleClass().add("task-checkbox");
-            cb.setSelected(subtask.getCompleted());
-            cb.setOnAction(e -> subtask.setCompleted(cb.isSelected()));
+            cb.getStyleClass().add("checkbox");
+            cb.selectedProperty().bindBidirectional(subtask.completedProperty());
+            cb.disableProperty().bind(subtask.completedProperty()
+                    .or(quest.stateProperty().isEqualTo(QuestState.LOCKED)));
             taskList.getChildren().add(cb);
         });
+
+        // set up reward boxes
+        rewardList.getChildren().clear();
+        quest.getRewards().forEach(reward -> {
+            CheckBox cb = new CheckBox(reward.getName());
+            cb.getStyleClass().add("checkbox");
+            cb.selectedProperty().bindBidirectional(reward.claimedProperty());
+            cb.disableProperty().bind(reward.claimedProperty()
+                    .or(quest.stateProperty().isNotEqualTo(QuestState.COMPLETED)));
+            rewardList.getChildren().add(cb);
+        });
+
+        // make claim button work
+        claim.setOnAction(e -> {
+            quest.getRewards().forEach(reward -> {
+                reward.setClaimed(true);
+            });
+        });
+
+        // bind button enable to completed status
+        claim.disableProperty().unbind();
+        claim.disableProperty().bind(Bindings.createBooleanBinding(
+                () -> quest.stateProperty().get() != QuestState.COMPLETED
+                        || quest.getRewards().isEmpty(),
+                quest.stateProperty(), quest.getRewards()));
+
     }
 
     public void show() {
