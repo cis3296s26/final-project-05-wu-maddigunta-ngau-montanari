@@ -3,8 +3,21 @@ package irlquestbook.model;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public abstract class Reward {
+public class Reward {
     private final BooleanProperty claimed = new SimpleBooleanProperty(false);
+    private String name;
+
+    public Reward(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public BooleanProperty claimedProperty() {
         return this.claimed;
@@ -18,5 +31,5 @@ public abstract class Reward {
         this.claimed.set(value);
     }
 
-    public abstract void claimReward(UserProfile user);
+    // TODO: ability to claim reward
 }

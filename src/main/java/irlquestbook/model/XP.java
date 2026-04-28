@@ -3,7 +3,8 @@ package irlquestbook.model;
 public class XP extends Reward {
     private final int xpAmount;
 
-    public XP(int xpAmount) {
+    public XP(String name, int xpAmount) {
+        super(name);
         this.xpAmount = xpAmount;
     }
 
@@ -11,6 +12,7 @@ public class XP extends Reward {
         return xpAmount;
     }
 
+    // TODO: fix this
     public void claimReward(UserProfile user) {
         if (!this.getClaimed()) {
             user.addXP(this.xpAmount);

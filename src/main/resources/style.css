@@ -93,3 +93,27 @@
 .task-list {
     -fx-padding: 0 0 0 15;
 }
+
+.quest {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-background-radius: 4;
+    -fx-border-radius: 4;
+}
+
+.quest:locked {
+    -fx-background-color: gray;
+}
+
+.quest:available {
+    -fx-background-color: red;
+}
+
+.quest:completed {
+    -fx-background-color: cyan;
+}
+
+.quest:claimed {
+    -fx-background-color: green;
+}
