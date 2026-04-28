@@ -1,6 +1,7 @@
 package irlquestbook.view;
 
 import irlquestbook.model.*;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -17,6 +18,7 @@ public class QuestDetailView extends StackPane {
     private VBox infoBox, rewardBox, taskBox;
     private VBox rewardList, taskList;
     private Label title, desc;
+    private Button claim;
 
     public QuestDetailView(StackPane root) {
         this.setVisible(false);
@@ -41,12 +43,13 @@ public class QuestDetailView extends StackPane {
         this.infoBox = new VBox(10);
         this.infoBox.getChildren().addAll(this.title, this.desc);
 
+        // set up reward box
         Label rewards = new Label("Rewards");
         this.rewardList = new VBox(10);
         this.rewardBox = new VBox(15);
-        this.rewardBox.getChildren().addAll(rewards, rewardList);
+        this.claim = new Button("Claim all rewards");
+        this.rewardBox.getChildren().addAll(rewards, rewardList, claim);
 
-        // set size of reward box to 40% of vertical space
         this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
         this.rewardBox.prefHeightProperty().bind(lPanel.heightProperty().multiply(0.4));
         VBox.setVgrow(this.infoBox, Priority.ALWAYS);
@@ -68,6 +71,7 @@ public class QuestDetailView extends StackPane {
         close.getStyleClass().add("close-btn");
         this.getStyleClass().add("quest-detail");
         title.getStyleClass().add("detail-title");
+        claim.getStyleClass().add("claim-btn");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
         lPanel.getStyleClass().addAll("panel", "l-panel");
@@ -105,8 +109,9 @@ public class QuestDetailView extends StackPane {
         quest.getSubtasks().forEach(subtask -> {
             CheckBox cb = new CheckBox(subtask.getName());
             cb.getStyleClass().add("checkbox");
-            cb.setSelected(subtask.getCompleted());
-            cb.setOnAction(e -> subtask.setCompleted(cb.isSelected()));
+            cb.selectedProperty().bindBidirectional(subtask.completedProperty());
+            cb.disableProperty().bind(subtask.completedProperty()
+                    .or(quest.stateProperty().isEqualTo(QuestState.LOCKED)));
             taskList.getChildren().add(cb);
         });
 
@@ -115,9 +120,26 @@ public class QuestDetailView extends StackPane {
         quest.getRewards().forEach(reward -> {
             CheckBox cb = new CheckBox(reward.getName());
             cb.getStyleClass().add("checkbox");
-            cb.setSelected(reward.getClaimed());
+            cb.selectedProperty().bindBidirectional(reward.claimedProperty());
+            cb.disableProperty().bind(reward.claimedProperty()
+                    .or(quest.stateProperty().isNotEqualTo(QuestState.COMPLETED)));
             rewardList.getChildren().add(cb);
         });
+
+        // make claim button work
+        claim.setOnAction(e -> {
+            quest.getRewards().forEach(reward -> {
+                reward.setClaimed(true);
+            });
+        });
+
+        // bind button enable to completed status
+        claim.disableProperty().unbind();
+        claim.disableProperty().bind(Bindings.createBooleanBinding(
+                () -> quest.stateProperty().get() != QuestState.COMPLETED
+                        || quest.getRewards().isEmpty(),
+                quest.stateProperty(), quest.getRewards()));
+
     }
 
     public void show() {
