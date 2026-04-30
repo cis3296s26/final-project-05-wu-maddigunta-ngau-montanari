@@ -3,8 +3,15 @@ package irlquestbook.view;
 import irlquestbook.model.*;
 
 import java.util.function.Consumer;
+
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import java.util.HashMap;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -17,6 +24,7 @@ public class QuestBookView extends BorderPane {
     public QuestBookView(QuestBook qb, Consumer<Quest> onQuestClick) {
         this.pages = new HashMap<>();
 
+        // put stackpane in center (pageview goes in this)
         this.stackPane = new StackPane();
         this.setCenter(stackPane);
 
@@ -28,6 +36,17 @@ public class QuestBookView extends BorderPane {
             // add to hashmap
             pages.put(page, view);
         }
+
+        // create toggle button for edit mode
+        ToggleButton editToggle = new ToggleButton();
+        FontIcon pencil = new FontIcon(Feather.EDIT_2);
+        pencil.setIconSize(20);
+        editToggle.setGraphic(pencil);
+
+        // add it to stackpane
+        this.stackPane.getChildren().add(editToggle);
+        StackPane.setAlignment(editToggle, Pos.TOP_RIGHT);
+        StackPane.setMargin(editToggle, new Insets(8));
 
         // create sidebar
         SidebarView sb = new SidebarView(qb, page -> {
