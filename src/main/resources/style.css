@@ -5,7 +5,7 @@
     -hex-button-hover: #D4BC98;
     -hex-button-selected: #C9A57B;
     -hex-button-selected-hover: #B89468;
-    -hex-accent: #FFA32E;
+    -hex-accent-primary: #FFA32E;
     -hex-accent-secondary: #BF7619;
 }
 
@@ -72,6 +72,8 @@
 .detail-name {
     -fx-font-size: 24;
     -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
 }
 
 .section-header {
@@ -155,7 +157,7 @@
 }
 
 .edit-toggle:selected {
-    -fx-background-color: -hex-accent;
+    -fx-background-color: -hex-accent-primary;
 }
 
 .edit-toggle:selected:hover {
@@ -164,4 +166,18 @@
 
 .edit-toggle .ikonli-font-icon {
     -fx-icon-color: -hex-border;
+}
+
+.text-field {
+    -fx-background-color: -hex-bg-primary;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-text-fill: -hex-border;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0;
+}
+
+.text-field:focused {
+    -fx-border-color: -hex-accent-primary;
 }
