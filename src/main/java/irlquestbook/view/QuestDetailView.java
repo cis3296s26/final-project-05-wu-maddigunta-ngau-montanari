@@ -62,10 +62,18 @@ public class QuestDetailView extends StackPane {
         nameLabel.managedProperty().bind(qb.editModeProperty().not());
         nameLabel.textProperty().bind(quest.nameProperty());
 
+        TextField descField = new TextField();
+        descField.textProperty().bindBidirectional(quest.descriptionProperty());
+        descField.visibleProperty().bind(qb.editModeProperty());
+        descField.managedProperty().bind(qb.editModeProperty());
+        descField.setOnAction(e -> descField.getParent().requestFocus());
+
         Label descLabel = new Label();
+        descLabel.visibleProperty().bind(qb.editModeProperty().not());
+        descLabel.managedProperty().bind(qb.editModeProperty().not());
         descLabel.textProperty().bind(quest.descriptionProperty());
 
-        this.infoBox.getChildren().addAll(nameLabel, nameField, descLabel);
+        this.infoBox.getChildren().addAll(nameLabel, nameField, descLabel, descField);
 
         // set up reward box
         Label rewards = new Label("Rewards");
@@ -123,8 +131,9 @@ public class QuestDetailView extends StackPane {
         // add style
         close.getStyleClass().addAll("close-btn", "clickable");
         this.getStyleClass().add("quest-detail");
-        nameLabel.getStyleClass().add("detail-name");
+        nameLabel.getStyleClass().addAll("detail-name", "detail");
         nameField.getStyleClass().add("detail-name");
+        descLabel.getStyleClass().add("detail");
         claim.getStyleClass().addAll("claim-btn", "clickable");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");

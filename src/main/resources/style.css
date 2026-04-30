@@ -69,11 +69,14 @@
     -fx-font-size: 18;
 }
 
+.detail {
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+}
+
 .detail-name {
     -fx-font-size: 24;
     -fx-font-weight: bold;
-    -fx-border-color: transparent;
-    -fx-border-width: 1px;
 }
 
 .section-header {
