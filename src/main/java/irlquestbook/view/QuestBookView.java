@@ -46,6 +46,7 @@ public class QuestBookView extends BorderPane {
         editToggle.setPrefSize(40, 40);
         editToggle.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         editToggle.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        editToggle.selectedProperty().bindBidirectional(qb.editModeProperty());
 
         // add it to stackpane
         this.stackPane.getChildren().add(editToggle);
