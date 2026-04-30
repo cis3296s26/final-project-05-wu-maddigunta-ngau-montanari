@@ -1,36 +1,55 @@
+* {
+    -hex-bg-primary: #F5E6D3;
+    -hex-bg-secondary: #E8D5B7;
+    -hex-border: #3E2817;
+    -hex-button-hover: #D4BC98;
+    -hex-button-selected: #C9A57B;
+    -hex-button-selected-hover: #B89468;
+    -hex-accent: #FFA32E;
+    -hex-accent-secondary: #BF7619;
+}
+
 .root {
     -fx-font-family: "Avenir", "Arial", sans-serif;
 }
 
+.clickable {
+    -fx-cursor: hand;
+}
+
+.page {
+    -fx-background-color: -hex-bg-primary;
+}
+
 .page-btn {
-    -fx-background-color: #E8D5B7;
-    -fx-border-color: #3E2817 transparent;
+    -fx-background-color: -hex-bg-secondary;
+    -fx-border-color: -hex-border transparent;
     -fx-border-width: 0 0 1 0;
     -fx-pref-height: 40;
     -fx-font-size: 16;
 }
 
 .page-btn:hover {
-    -fx-background-color: #D4BC98;
+    -fx-background-color: -hex-button-hover;
 }
 
 .page-btn.selected {
-    -fx-background-color: #C9A57B;
+    -fx-background-color: -hex-button-selected;
 }
 
 .page-btn.selected:hover {
-    -fx-background-color: #B89468;
+    -fx-background-color: -hex-button-selected-hover;
 }
 
 .sidebar {
-    -fx-background-color: #E8D5B7;
-    -fx-border-color: transparent #3E2817 transparent transparent;
+    -fx-background-color: -hex-bg-secondary;
+    -fx-border-color: transparent -hex-border transparent transparent;
     -fx-border-width: 0 2 0 0;
 }
 
 .quest-tooltip {
-    -fx-background-color: #F5E8D3;
-    -fx-border-color: #3E2817;
+    -fx-background-color: -hex-bg-primary;
+    -fx-border-color: -hex-border;
     -fx-border-width: 1;
     -fx-border-radius: 3;
     -fx-padding: 2 6;
@@ -38,8 +57,8 @@
 }
 
 .quest-detail {
-    -fx-background-color: #E8D5B7;
-    -fx-border-color: #3E2817;
+    -fx-background-color: -hex-bg-secondary;
+    -fx-border-color: -hex-border;
     -fx-border-width: 2;
     -fx-padding: 20;
 }
@@ -48,7 +67,6 @@
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-font-size: 18;
-    -fx-cursor: hand;
 }
 
 .detail-name {
@@ -62,7 +80,7 @@
 }
 
 .l-panel {
-    -fx-border-color: transparent #3E2817 transparent transparent;
+    -fx-border-color: transparent -hex-border transparent transparent;
     -fx-border-width: 0 1 0 0;
 }
 
@@ -71,13 +89,13 @@
 }
 
 .reward-box {
-    -fx-border-color: #3E2817 transparent transparent transparent;
+    -fx-border-color: -hex-border transparent transparent transparent;
     -fx-border-width: 1 0 0 0;
 }
 
 .claim-btn {
-    -fx-background-color: #F5E6D3;
-    -fx-border-color: #3E2817;
+    -fx-background-color: -hex-bg-primary;
+    -fx-border-color: -hex-border;
     -fx-border-width: 1;
 }
 
@@ -87,12 +105,12 @@
 
 .checkbox .box {
     -fx-background-color: transparent;
-    -fx-border-color: #3E2817;
+    -fx-border-color: -hex-border;
     -fx-border-width: 1;
 }
 
 .checkbox:selected .mark {
-    -fx-background-color: #3E2817;
+    -fx-background-color: -hex-border;
 }
 
 .checkbox-list {
@@ -103,8 +121,8 @@
     -fx-background-color: white;
     -fx-border-color: black;
     -fx-border-width: 2;
-    -fx-background-radius: 4;
-    -fx-border-radius: 4;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
 }
 
 .quest:locked {
@@ -121,4 +139,29 @@
 
 .quest:claimed {
     -fx-background-color: green;
+}
+
+.edit-toggle {
+    -fx-background-color: -hex-bg-secondary;
+    -fx-border-color: -hex-border;
+    -fx-padding: 0;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
+.edit-toggle:hover {
+    -fx-background-color: -hex-button-hover;
+}
+
+.edit-toggle:selected {
+    -fx-background-color: -hex-accent;
+}
+
+.edit-toggle:selected:hover {
+    -fx-background-color: -hex-accent-secondary;
+}
+
+.edit-toggle .ikonli-font-icon {
+    -fx-icon-color: -hex-border;
 }

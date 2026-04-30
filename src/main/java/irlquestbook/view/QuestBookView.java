@@ -40,13 +40,18 @@ public class QuestBookView extends BorderPane {
         // create toggle button for edit mode
         ToggleButton editToggle = new ToggleButton();
         FontIcon pencil = new FontIcon(Feather.EDIT_2);
-        pencil.setIconSize(20);
+        pencil.setIconSize(24);
         editToggle.setGraphic(pencil);
+        editToggle.getStyleClass().addAll("edit-toggle", "clickable");
+        editToggle.setPrefSize(40, 40);
+        editToggle.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+        editToggle.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
 
         // add it to stackpane
         this.stackPane.getChildren().add(editToggle);
         StackPane.setAlignment(editToggle, Pos.TOP_RIGHT);
-        StackPane.setMargin(editToggle, new Insets(8));
+        StackPane.setMargin(editToggle, new Insets(12));
+        this.stackPane.setPadding(Insets.EMPTY);
 
         // create sidebar
         SidebarView sb = new SidebarView(qb, page -> {

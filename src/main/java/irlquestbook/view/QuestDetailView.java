@@ -69,10 +69,10 @@ public class QuestDetailView extends StackPane {
         this.hBox.getChildren().add(rPanel);
 
         // add style
-        close.getStyleClass().add("close-btn");
+        close.getStyleClass().addAll("close-btn", "clickable");
         this.getStyleClass().add("quest-detail");
         name.getStyleClass().add("detail-name");
-        claim.getStyleClass().add("claim-btn");
+        claim.getStyleClass().addAll("claim-btn", "clickable");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
         lPanel.getStyleClass().addAll("panel", "l-panel");
@@ -115,7 +115,7 @@ public class QuestDetailView extends StackPane {
         taskList.getChildren().clear();
         quest.getSubtasks().forEach(subtask -> {
             CheckBox cb = new CheckBox(subtask.getName());
-            cb.getStyleClass().add("checkbox");
+            cb.getStyleClass().addAll("checkbox", "clickable");
             cb.selectedProperty().bindBidirectional(subtask.completedProperty());
             cb.disableProperty().bind(subtask.completedProperty()
                     .or(quest.stateProperty().isEqualTo(QuestState.LOCKED)));
@@ -126,7 +126,7 @@ public class QuestDetailView extends StackPane {
         rewardList.getChildren().clear();
         quest.getRewards().forEach(reward -> {
             CheckBox cb = new CheckBox(reward.getName());
-            cb.getStyleClass().add("checkbox");
+            cb.getStyleClass().addAll("checkbox", "clickable");
             cb.selectedProperty().bindBidirectional(reward.claimedProperty());
             cb.disableProperty().bind(reward.claimedProperty()
                     .or(quest.stateProperty().isNotEqualTo(QuestState.COMPLETED)));

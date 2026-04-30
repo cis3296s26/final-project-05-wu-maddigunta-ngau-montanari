@@ -28,7 +28,7 @@ public class PageView extends Pane {
         this.quests = new HashMap<>();
 
         // styling
-        this.setStyle("-fx-background-color: #F5E6D3;");
+        this.getStyleClass().add("page");
 
         // iterate through questlines (page) and create QuestViews
         for (Questline ql : this.page.getQuestlines()) {
