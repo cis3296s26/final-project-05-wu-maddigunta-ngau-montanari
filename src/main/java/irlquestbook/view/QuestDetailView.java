@@ -19,17 +19,14 @@ public class QuestDetailView extends StackPane {
     private VBox rewardList, taskList;
     private Label name, desc;
     private Button claim;
-    private Quest quest;
 
-    public QuestDetailView(StackPane root) {
-        this.setVisible(false);
-
+    public QuestDetailView(StackPane root, Quest quest, QuestBook qb, Runnable onClose) {
         // set up hBox
         this.hBox = new HBox();
 
         // create close button
         Button close = new Button("X");
-        close.setOnAction(e -> this.hide());
+        close.setOnAction(e -> onClose.run());
         StackPane.setAlignment(close, Pos.TOP_RIGHT);
 
         // add hBox and button to stackpane
@@ -99,20 +96,12 @@ public class QuestDetailView extends StackPane {
 
         // prevent shrinking to content
         this.setMinSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
-    }
 
-    public void setQuest(Quest quest) {
-        if (this.quest != null) {
-            name.textProperty().unbindBidirectional(this.quest.nameProperty());
-            desc.textProperty().unbindBidirectional(this.quest.descriptionProperty());
-        }
-
-        this.quest = quest;
+        // set up quest specific elements and bindings
         name.textProperty().bindBidirectional(quest.nameProperty());
         desc.textProperty().bindBidirectional(quest.descriptionProperty());
 
         // set up subtask boxes
-        taskList.getChildren().clear();
         quest.getSubtasks().forEach(subtask -> {
             CheckBox cb = new CheckBox(subtask.getName());
             cb.getStyleClass().addAll("checkbox", "clickable");
@@ -123,7 +112,6 @@ public class QuestDetailView extends StackPane {
         });
 
         // set up reward boxes
-        rewardList.getChildren().clear();
         quest.getRewards().forEach(reward -> {
             CheckBox cb = new CheckBox(reward.getName());
             cb.getStyleClass().addAll("checkbox", "clickable");
@@ -141,20 +129,9 @@ public class QuestDetailView extends StackPane {
         });
 
         // bind button enable to completed status
-        claim.disableProperty().unbind();
         claim.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> quest.stateProperty().get() != QuestState.COMPLETED
                         || quest.getRewards().isEmpty(),
                 quest.stateProperty(), quest.getRewards()));
-
-    }
-
-    public void show() {
-        this.setVisible(true);
-        this.toFront();
-    }
-
-    public void hide() {
-        this.setVisible(false);
     }
 }

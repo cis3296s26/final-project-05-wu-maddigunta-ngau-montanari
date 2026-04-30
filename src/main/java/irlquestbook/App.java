@@ -9,6 +9,7 @@ import java.util.List;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -26,19 +27,20 @@ public class App extends Application {
         // load css
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-        // create detail panel
-        QuestDetailView details = new QuestDetailView(root);
+        // create detail layer
+        StackPane overlay = new StackPane();
+        overlay.setPickOnBounds(false);
 
         // create questbook view using test data
         QuestBook questBook = createTestData();
         QuestBookView questBookView = new QuestBookView(questBook, q -> {
-            details.setQuest(q);
-            details.show();
+            QuestDetailView details = new QuestDetailView(root, q, questBook, () -> overlay.getChildren().clear());
+            overlay.getChildren().add(details);
         });
 
         // add qb view and detail panel to root
         root.getChildren().add(questBookView);
-        root.getChildren().add(details);
+        root.getChildren().add(overlay);
 
         stage.setTitle("IRL Quest Book");
         stage.setScene(scene);
