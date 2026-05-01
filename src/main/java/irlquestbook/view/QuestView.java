@@ -31,7 +31,7 @@ public class QuestView extends StackPane {
         setPrefSize(30, 30);
         setMinSize(USE_PREF_SIZE, USE_PREF_SIZE);
         setMaxSize(USE_PREF_SIZE, USE_PREF_SIZE);
-        getStyleClass().add("quest");
+        getStyleClass().addAll("quest", "clickable");
         quest.stateProperty().addListener((obs, oldState, newState) -> updateStateClass(newState));
         updateStateClass(quest.stateProperty().get());
 

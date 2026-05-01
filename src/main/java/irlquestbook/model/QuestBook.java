@@ -3,38 +3,47 @@ package irlquestbook.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 public class QuestBook {
+    private List<Page> pages;
+    private final BooleanProperty editMode = new SimpleBooleanProperty(false);
 
-	// list of pages that are in this quest book
-	private List<Page> pages;
+    public QuestBook() {
+        this.pages = new ArrayList<>();
+    }
 
-	// constructor to initialize the quest book object
-	public QuestBook() {
-		this.pages = new ArrayList<>();
-	}
+    public QuestBook(List<Page> pages) {
+        this.pages = pages;
+    }
 
-	// overloaded constructor to initialize with an existing list
-	public QuestBook(List<Page> pages) {
-		this.pages = pages;
-	}
+    public BooleanProperty editModeProperty() {
+        return editMode;
+    }
 
-	// method to return the list of pages
-	public List<Page> getPages() {
-		return this.pages;
-	}
+    public boolean getEditMode() {
+        return editMode.get();
+    }
 
-	// add a page to the book
-	public void addPage(Page page) {
-		this.pages.add(page);
-	}
+    public List<Page> getPages() {
+        return this.pages;
+    }
 
-	// remove a page from the book
-	public void removePage(Page page) {
-		this.pages.remove(page);
-	}
+    public int getPageCount() {
+        return this.pages.size();
+    }
 
-	// method to get the total number of pages
-	public int getPageCount() {
-		return this.pages.size();
-	}
+    public void setEditMode(boolean value) {
+        editMode.set(value);
+    }
+
+    public void addPage(Page page) {
+        this.pages.add(page);
+    }
+
+    public void removePage(Page page) {
+        this.pages.remove(page);
+    }
+
 }

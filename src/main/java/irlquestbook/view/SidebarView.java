@@ -1,4 +1,5 @@
 package irlquestbook.view;
+
 import irlquestbook.model.*;
 
 import java.util.HashMap;
@@ -24,7 +25,7 @@ public class SidebarView extends VBox {
             Button btn = new Button(page.pageName());
             btn.setOnAction(e -> this.select(page));
             btn.setMaxWidth(Double.MAX_VALUE);
-            btn.getStyleClass().add("page-btn");
+            btn.getStyleClass().addAll("page-btn", "clickable");
             pageButtons.put(page, btn);
             this.getChildren().add(btn);
         });

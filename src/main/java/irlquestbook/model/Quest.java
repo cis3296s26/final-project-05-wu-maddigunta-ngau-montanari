@@ -3,14 +3,16 @@ package irlquestbook.model;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 // TODO: repeat quests
 public class Quest {
     private int id;
-    private String name;
-    private String description;
+    private final StringProperty name = new SimpleStringProperty("");
+    private final StringProperty description = new SimpleStringProperty("");
     private double mapX, mapY;
 
     private final ObservableList<Quest> prereqs = FXCollections
@@ -25,8 +27,8 @@ public class Quest {
     // constructor to initialize the quest object
     public Quest(String name, String description, double x, double y) {
         this.id = 0; // we can set id when we have a database with auto-increment
-        this.name = name;
-        this.description = description;
+        this.name.set(name);
+        this.description.set(description);
         this.mapX = x;
         this.mapY = y;
 
@@ -58,21 +60,34 @@ public class Quest {
         }, prereqs, subtasks, rewards);
     }
 
+    // property getters
     public ObjectBinding<QuestState> stateProperty() {
-        return this.state;
+        return state;
     }
 
+    public StringProperty nameProperty() {
+        return name;
+    }
+
+    public StringProperty descriptionProperty() {
+        return description;
+    }
+
+    // regular getters
     public String getName() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
-        return name;
+        return name.get();
     }
 
     public String getDescription() {
-        return description;
+        return description.get();
+    }
+
+    public double getX() {
+        return this.mapX;
+    }
+
+    public double getY() {
+        return this.mapY;
     }
 
     public int getId() {
@@ -91,46 +106,7 @@ public class Quest {
         return rewards;
     }
 
-    public double getX() {
-        return this.mapX;
-    }
-
-    public double getY() {
-        return this.mapY;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void addPrerequisite(Quest quest) {
-        prereqs.add(quest);
-    }
-
-    public void removePrerequisite(Quest quest) {
-        prereqs.remove(quest);
-    }
-
-    public void addSubtask(Subtask subtask) {
-        subtasks.add(subtask);
-    }
-
-    public void removeSubtask(Subtask subtask) {
-        subtasks.remove(subtask);
-    }
-
-    public void addReward(Reward reward) {
-        rewards.add(reward);
-    }
-
-    public void removeReward(Reward reward) {
-        rewards.remove(reward);
-    }
-
+    // regular setters
     public void setX(double x) {
         this.mapX = x;
     }
@@ -138,4 +114,39 @@ public class Quest {
     public void setY(double y) {
         this.mapY = y;
     }
+
+    public void setName(String value) {
+        name.set(value);
+    }
+
+    public void setDescription(String value) {
+        description.set(value);
+    }
+
+    // adders
+    public void addPrerequisite(Quest quest) {
+        prereqs.add(quest);
+    }
+
+    public void addSubtask(Subtask subtask) {
+        subtasks.add(subtask);
+    }
+
+    public void addReward(Reward reward) {
+        rewards.add(reward);
+    }
+
+    // removers
+    public void removePrerequisite(Quest quest) {
+        prereqs.remove(quest);
+    }
+
+    public void removeSubtask(Subtask subtask) {
+        subtasks.remove(subtask);
+    }
+
+    public void removeReward(Reward reward) {
+        rewards.remove(reward);
+    }
+
 }
