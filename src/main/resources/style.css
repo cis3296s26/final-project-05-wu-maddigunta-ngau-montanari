@@ -104,9 +104,6 @@
     -fx-border-width: 1;
 }
 
-.checkbox {
-    -fx-font-size: 16;
-}
 
 .checkbox .box {
     -fx-background-color: transparent;
@@ -200,4 +197,8 @@
 
 .text-area:focused {
     -fx-border-color: -hex-accent-primary;
+}
+
+.checkbox-row {
+    -fx-font-size: 16;
 }

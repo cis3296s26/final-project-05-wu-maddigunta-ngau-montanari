@@ -133,6 +133,7 @@ public class QuestDetailView extends StackPane {
         addSubtaskButton.setMaxWidth(Double.MAX_VALUE);
         addSubtaskButton.visibleProperty().bind(qb.editModeProperty());
         addSubtaskButton.managedProperty().bind(qb.editModeProperty());
+        addSubtaskButton.getStyleClass().addAll("generic-btn", "clickable");
         addSubtaskButton.setOnAction(e -> {
             Subtask s = new Subtask("");
             quest.getSubtasks().add(s);
