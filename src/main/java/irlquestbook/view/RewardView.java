@@ -14,27 +14,27 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class SubtaskView extends HBox {
-    private final Subtask subtask;
+public class RewardView extends HBox {
+    private final Reward reward;
 
-    public SubtaskView(Subtask subtask, Quest quest, BooleanProperty editMode, Consumer<SubtaskView> onDelete) {
-        this.subtask = subtask;
+    public RewardView(Reward reward, Quest quest, BooleanProperty editMode, Consumer<RewardView> onDelete) {
+        this.reward = reward;
         this.setSpacing(10);
 
         CheckBox cb = new CheckBox();
         cb.getStyleClass().addAll("checkbox", "clickable");
-        cb.selectedProperty().bindBidirectional(subtask.completedProperty());
-        cb.disableProperty().bind(subtask.completedProperty()
-                .or(quest.stateProperty().isEqualTo(QuestState.LOCKED)).or(editMode));
+        cb.selectedProperty().bindBidirectional(reward.claimedProperty());
+        cb.disableProperty().bind(reward.claimedProperty()
+                .or(quest.stateProperty().isNotEqualTo(QuestState.COMPLETED)));
 
         Label nameLabel = new Label();
-        nameLabel.textProperty().bind(subtask.nameProperty());
+        nameLabel.textProperty().bind(reward.nameProperty());
         nameLabel.visibleProperty().bind(editMode.not());
         nameLabel.managedProperty().bind(editMode.not());
         nameLabel.getStyleClass().addAll("detail", "checkbox-row");
 
         TextField nameField = new TextField();
-        nameField.textProperty().bindBidirectional(subtask.nameProperty());
+        nameField.textProperty().bindBidirectional(reward.nameProperty());
         nameField.visibleProperty().bind(editMode);
         nameField.managedProperty().bind(editMode);
         nameField.getStyleClass().addAll("checkbox-row");
@@ -52,8 +52,8 @@ public class SubtaskView extends HBox {
         this.getChildren().addAll(cb, nameLabel, nameField, delete);
     }
 
-    public Subtask getSubtask() {
-        return subtask;
+    public Reward getReward() {
+        return reward;
     }
 
 }

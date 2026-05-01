@@ -93,8 +93,28 @@ public class QuestDetailView extends StackPane {
         Label rewards = new Label("Rewards");
         this.rewardList = new VBox(10);
         this.rewardBox = new VBox(15);
+
         Button claim = new Button("Claim all rewards");
-        this.rewardBox.getChildren().addAll(rewards, rewardList, claim);
+        claim.visibleProperty().bind(qb.editModeProperty().not());
+        claim.managedProperty().bind(qb.editModeProperty().not());
+        claim.setOnAction(e -> {
+            quest.getRewards().forEach(reward -> {
+                reward.setClaimed(true);
+            });
+        });
+
+        Button addRewardButton = new Button("Add reward");
+        addRewardButton.setMaxWidth(Double.MAX_VALUE);
+        addRewardButton.visibleProperty().bind(qb.editModeProperty());
+        addRewardButton.managedProperty().bind(qb.editModeProperty());
+        addRewardButton.getStyleClass().addAll("generic-btn", "clickable");
+        addRewardButton.setOnAction(e -> {
+            Reward r = new Reward("");
+            quest.getRewards().add(r);
+            addReward(r);
+        });
+
+        this.rewardBox.getChildren().addAll(rewards, rewardList, addRewardButton, claim);
 
         this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
         this.rewardBox.prefHeightProperty().bind(lPanel.heightProperty().multiply(0.4));
@@ -103,27 +123,13 @@ public class QuestDetailView extends StackPane {
         this.lPanel.getChildren().addAll(this.infoBox, this.rewardBox);
 
         // set up reward list
-        quest.getRewards().forEach(reward -> {
-            CheckBox cb = new CheckBox(reward.getName());
-            cb.getStyleClass().addAll("checkbox", "clickable");
-            cb.selectedProperty().bindBidirectional(reward.claimedProperty());
-            cb.disableProperty().bind(reward.claimedProperty()
-                    .or(quest.stateProperty().isNotEqualTo(QuestState.COMPLETED)));
-            rewardList.getChildren().add(cb);
-        });
-
-        // make claim button work
-        claim.setOnAction(e -> {
-            quest.getRewards().forEach(reward -> {
-                reward.setClaimed(true);
-            });
-        });
+        quest.getRewards().forEach(reward -> this.addReward(reward));
 
         // bind button enable to completed status
         claim.disableProperty().bind(Bindings.createBooleanBinding(
                 () -> quest.stateProperty().get() != QuestState.COMPLETED
                         || quest.getRewards().isEmpty(),
-                quest.stateProperty(), quest.getRewards()));
+                quest.stateProperty(), quest.getRewards()).or(qb.editModeProperty()));
 
         // set up task panel
         Label tasks = new Label("Tasks");
@@ -176,8 +182,18 @@ public class QuestDetailView extends StackPane {
         taskList.getChildren().add(row);
     }
 
+    private void addReward(Reward reward) {
+        RewardView row = new RewardView(reward, quest, qb.editModeProperty(), this::deleteReward);
+        rewardList.getChildren().add(row);
+    }
+
     private void deleteSubtask(SubtaskView row) {
         quest.getSubtasks().remove(row.getSubtask());
         taskList.getChildren().remove(row);
+    }
+
+    private void deleteReward(RewardView row) {
+        quest.getRewards().remove(row.getReward());
+        rewardList.getChildren().remove(row);
     }
 }
