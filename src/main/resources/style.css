@@ -1,7 +1,7 @@
 * {
     -hex-bg-primary: #F5E6D3;
     -hex-bg-secondary: #E8D5B7;
-    -hex-border: #3E2817;
+    -hex-border: #544937;
     -hex-button-hover: #D4BC98;
     -hex-button-selected: #C9A57B;
     -hex-button-selected-hover: #B89468;
@@ -201,4 +201,36 @@
 
 .checkbox-row {
     -fx-font-size: 16;
+}
+
+.scroll-pane,
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical,
+.scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: -hex-button-selected;
+    -fx-background-radius: 4;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: -hex-button-selected-hover;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .increment-arrow,
+.scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: null;
 }

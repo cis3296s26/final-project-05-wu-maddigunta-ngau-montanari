@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -114,16 +115,20 @@ public class QuestDetailView extends StackPane {
             addReward(r);
         });
 
-        this.rewardBox.getChildren().addAll(rewards, rewardList, addRewardButton, claim);
+        // set up reward list
+        quest.getRewards().forEach(reward -> this.addReward(reward));
+        ScrollPane rewardScroll = new ScrollPane(rewardList);
+        rewardScroll.setFitToWidth(true);
+        rewardScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        rewardScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         this.rewardBox.setMinHeight(Region.USE_PREF_SIZE);
         this.rewardBox.prefHeightProperty().bind(lPanel.heightProperty().multiply(0.4));
         VBox.setVgrow(this.infoBox, Priority.ALWAYS);
 
-        this.lPanel.getChildren().addAll(this.infoBox, this.rewardBox);
+        this.rewardBox.getChildren().addAll(rewards, rewardScroll, addRewardButton, claim);
 
-        // set up reward list
-        quest.getRewards().forEach(reward -> this.addReward(reward));
+        this.lPanel.getChildren().addAll(this.infoBox, this.rewardBox);
 
         // bind button enable to completed status
         claim.disableProperty().bind(Bindings.createBooleanBinding(
@@ -146,11 +151,16 @@ public class QuestDetailView extends StackPane {
             addSubtask(s);
         });
 
-        this.taskBox.getChildren().addAll(tasks, this.taskList, addSubtaskButton);
-        this.rPanel.getChildren().add(taskBox);
-
         // set up task list
         quest.getSubtasks().forEach(subtask -> addSubtask(subtask));
+
+        ScrollPane taskScroll = new ScrollPane(taskList);
+        taskScroll.setFitToWidth(true);
+        taskScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        taskScroll.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
+        this.taskBox.getChildren().addAll(tasks, taskScroll, addSubtaskButton);
+        this.rPanel.getChildren().add(taskBox);
 
         // add style
         close.getStyleClass().addAll("close-btn", "clickable");
