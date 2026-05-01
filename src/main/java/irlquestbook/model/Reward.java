@@ -2,21 +2,27 @@ package irlquestbook.model;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Reward {
     private final BooleanProperty claimed = new SimpleBooleanProperty(false);
-    private String name;
+    private final StringProperty name = new SimpleStringProperty("");
 
     public Reward(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
+    }
+
+    public StringProperty nameProperty() {
+        return this.name;
     }
 
     public BooleanProperty claimedProperty() {
@@ -30,6 +36,4 @@ public class Reward {
     public void setClaimed(boolean value) {
         this.claimed.set(value);
     }
-
-    // TODO: ability to claim reward
 }
