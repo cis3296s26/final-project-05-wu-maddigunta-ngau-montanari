@@ -23,7 +23,13 @@ public class QuestDetailView extends StackPane {
     private VBox infoBox, rewardBox, taskBox;
     private VBox rewardList, taskList;
 
+    private Quest quest;
+    private QuestBook qb;
+
     public QuestDetailView(StackPane root, Quest quest, QuestBook qb, Runnable onClose) {
+        this.quest = quest;
+        this.qb = qb;
+
         // set up general structure
         this.hBox = new HBox();
         this.lPanel = new VBox();
@@ -123,18 +129,21 @@ public class QuestDetailView extends StackPane {
         Label tasks = new Label("Tasks");
         this.taskList = new VBox(10);
         this.taskBox = new VBox(15);
-        this.taskBox.getChildren().addAll(tasks, this.taskList);
+        Button addSubtaskButton = new Button("Add subtask");
+        addSubtaskButton.setMaxWidth(Double.MAX_VALUE);
+        addSubtaskButton.visibleProperty().bind(qb.editModeProperty());
+        addSubtaskButton.managedProperty().bind(qb.editModeProperty());
+        addSubtaskButton.setOnAction(e -> {
+            Subtask s = new Subtask("");
+            quest.getSubtasks().add(s);
+            addSubtask(s);
+        });
+
+        this.taskBox.getChildren().addAll(tasks, this.taskList, addSubtaskButton);
         this.rPanel.getChildren().add(taskBox);
 
         // set up task list
-        quest.getSubtasks().forEach(subtask -> {
-            CheckBox cb = new CheckBox(subtask.getName());
-            cb.getStyleClass().addAll("checkbox", "clickable");
-            cb.selectedProperty().bindBidirectional(subtask.completedProperty());
-            cb.disableProperty().bind(subtask.completedProperty()
-                    .or(quest.stateProperty().isEqualTo(QuestState.LOCKED)));
-            taskList.getChildren().add(cb);
-        });
+        quest.getSubtasks().forEach(subtask -> addSubtask(subtask));
 
         // add style
         close.getStyleClass().addAll("close-btn", "clickable");
@@ -143,7 +152,7 @@ public class QuestDetailView extends StackPane {
         nameField.getStyleClass().addAll("detail-name");
         descLabel.getStyleClass().add("detail");
         descField.getStyleClass().addAll("text-field");
-        claim.getStyleClass().addAll("claim-btn", "clickable");
+        claim.getStyleClass().addAll("generic-btn", "clickable");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
         lPanel.getStyleClass().addAll("panel", "l-panel");
@@ -159,5 +168,15 @@ public class QuestDetailView extends StackPane {
         nameField.setMaxWidth(Double.MAX_VALUE);
         tasks.setAlignment(Pos.CENTER);
         tasks.setMaxWidth(Double.MAX_VALUE);
+    }
+
+    private void addSubtask(Subtask subtask) {
+        SubtaskView row = new SubtaskView(subtask, quest, qb.editModeProperty(), this::deleteSubtask);
+        taskList.getChildren().add(row);
+    }
+
+    private void deleteSubtask(SubtaskView row) {
+        quest.getSubtasks().remove(row.getSubtask());
+        taskList.getChildren().remove(row);
     }
 }

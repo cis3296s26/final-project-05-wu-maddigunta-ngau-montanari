@@ -98,7 +98,7 @@
     -fx-border-width: 1 0 0 0;
 }
 
-.claim-btn {
+.generic-btn {
     -fx-background-color: -hex-bg-primary;
     -fx-border-color: -hex-border;
     -fx-border-width: 1;
