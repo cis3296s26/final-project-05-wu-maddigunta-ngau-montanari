@@ -184,3 +184,20 @@
 .text-field:focused {
     -fx-border-color: -hex-accent-primary;
 }
+
+.text-area {
+    -fx-background-color: -hex-bg-primary;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0 0 12 0;
+}
+
+.text-area .content {
+    -fx-background-color: -hex-bg-primary;
+}
+
+.text-area:focused {
+    -fx-border-color: -hex-accent-primary;
+}

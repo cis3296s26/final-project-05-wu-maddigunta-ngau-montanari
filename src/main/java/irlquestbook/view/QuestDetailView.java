@@ -2,11 +2,15 @@ package irlquestbook.view;
 
 import irlquestbook.model.*;
 import javafx.beans.binding.Bindings;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -55,23 +59,27 @@ public class QuestDetailView extends StackPane {
         nameField.textProperty().bindBidirectional(quest.nameProperty());
         nameField.visibleProperty().bind(qb.editModeProperty());
         nameField.managedProperty().bind(qb.editModeProperty());
-        nameField.setOnAction(e -> nameField.getParent().requestFocus());
 
         Label nameLabel = new Label();
         nameLabel.visibleProperty().bind(qb.editModeProperty().not());
         nameLabel.managedProperty().bind(qb.editModeProperty().not());
         nameLabel.textProperty().bind(quest.nameProperty());
 
-        TextField descField = new TextField();
+        TextArea descField = new TextArea();
+        descField.setWrapText(true);
         descField.textProperty().bindBidirectional(quest.descriptionProperty());
         descField.visibleProperty().bind(qb.editModeProperty());
         descField.managedProperty().bind(qb.editModeProperty());
-        descField.setOnAction(e -> descField.getParent().requestFocus());
+        VBox.setMargin(descField, new Insets(0, 0, 12, 0));
 
         Label descLabel = new Label();
+        descLabel.setWrapText(true);
         descLabel.visibleProperty().bind(qb.editModeProperty().not());
         descLabel.managedProperty().bind(qb.editModeProperty().not());
         descLabel.textProperty().bind(quest.descriptionProperty());
+
+        VBox.setVgrow(descLabel, Priority.ALWAYS);
+        VBox.setVgrow(descField, Priority.ALWAYS);
 
         this.infoBox.getChildren().addAll(nameLabel, nameField, descLabel, descField);
 
@@ -132,8 +140,9 @@ public class QuestDetailView extends StackPane {
         close.getStyleClass().addAll("close-btn", "clickable");
         this.getStyleClass().add("quest-detail");
         nameLabel.getStyleClass().addAll("detail-name", "detail");
-        nameField.getStyleClass().add("detail-name");
+        nameField.getStyleClass().addAll("detail-name");
         descLabel.getStyleClass().add("detail");
+        descField.getStyleClass().addAll("text-field");
         claim.getStyleClass().addAll("claim-btn", "clickable");
         rewards.getStyleClass().add("section-header");
         tasks.getStyleClass().add("section-header");
