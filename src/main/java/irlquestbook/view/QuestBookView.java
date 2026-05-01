@@ -48,10 +48,19 @@ public class QuestBookView extends BorderPane {
         editToggle.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         editToggle.selectedProperty().bindBidirectional(qb.editModeProperty());
 
+        // create toolbar
+        ToolbarView toolbar = new ToolbarView(qb);
+        toolbar.visibleProperty().bind(qb.editModeProperty());
+        toolbar.managedProperty().bind(qb.editModeProperty());
+        toolbar.setMaxWidth(Region.USE_PREF_SIZE);
+        toolbar.setMaxHeight(Region.USE_PREF_SIZE);
+
         // add it to stackpane
-        this.stackPane.getChildren().add(editToggle);
+        this.stackPane.getChildren().addAll(editToggle, toolbar);
+        StackPane.setAlignment(toolbar, Pos.TOP_CENTER);
         StackPane.setAlignment(editToggle, Pos.TOP_RIGHT);
         StackPane.setMargin(editToggle, new Insets(12));
+        StackPane.setMargin(toolbar, new Insets(12));
         this.stackPane.setPadding(Insets.EMPTY);
 
         // create sidebar
