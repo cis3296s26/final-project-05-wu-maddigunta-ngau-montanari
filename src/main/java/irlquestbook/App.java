@@ -10,6 +10,7 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -34,8 +35,11 @@ public class App extends Application {
         // create questbook view using test data
         QuestBook questBook = createTestData();
         QuestBookView questBookView = new QuestBookView(questBook, q -> {
-            QuestDetailView details = new QuestDetailView(root, q, questBook, () -> overlay.getChildren().clear());
-            overlay.getChildren().add(details);
+            Region scrim = new Region();
+            scrim.setStyle("-fx-background-color: rgba(0,0,0,0.4);");
+            QuestDetailView details = new QuestDetailView(root, q, questBook,
+                    () -> overlay.getChildren().clear());
+            overlay.getChildren().addAll(scrim, details);
         });
 
         // add qb view and detail panel to root
