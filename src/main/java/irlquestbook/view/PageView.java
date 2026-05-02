@@ -108,7 +108,20 @@ public class PageView extends Pane {
     }
 
     private void addConnection(Quest source, Quest dest) {
-        System.out.println("addConnection: source=" + source + " dest=" + dest + " keys=" + quests.keySet());
+        if (!quests.containsKey(source) || !quests.containsKey(dest)) {
+            System.out.println("=== addConnection FAILED ===");
+            System.out.println("  source: name='" + source.getName() + "' id=" + System.identityHashCode(source)
+                    + " inMap=" + quests.containsKey(source));
+            System.out.println("  dest:   name='" + dest.getName() + "' id=" + System.identityHashCode(dest) + " inMap="
+                    + quests.containsKey(dest));
+            System.out.println("  page.getQuests() size=" + page.getQuests().size());
+            page.getQuests().forEach(q -> System.out.println("    page quest: name='" + q.getName() + "' id="
+                    + System.identityHashCode(q) + " inMap=" + quests.containsKey(q)));
+            System.out.println("  quests map size=" + quests.size());
+            quests.keySet().forEach(q -> System.out
+                    .println("    map key:    name='" + q.getName() + "' id=" + System.identityHashCode(q)));
+            return;
+        }
         Line line = drawConnection(source, dest);
         this.getChildren().add(line);
         line.toBack();
@@ -135,14 +148,22 @@ public class PageView extends Pane {
         line.endXProperty().bind(dV.layoutXProperty().add(15));
         line.endYProperty().bind(dV.layoutYProperty().add(15));
 
+        line.setOnMouseClicked(e -> {
+            if (qb.getTool() == Tool.DELETE) {
+                dest.getPrereqs().remove(source);
+            }
+        });
+
         return line;
     }
 
     private void handleConnect(Quest clicked) {
         if (pendingSource == null) {
             pendingSource = clicked;
+            quests.get(clicked).getStyleClass().add("connect-pending");
         } else {
             page.handleQuestConnect(pendingSource, clicked);
+            quests.get(pendingSource).getStyleClass().remove("connect-pending");
             pendingSource = null;
         }
     }
