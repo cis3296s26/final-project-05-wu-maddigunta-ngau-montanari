@@ -1,15 +1,17 @@
 package irlquestbook;
 
-import irlquestbook.model.*;
-import irlquestbook.view.*;
-import irlquestbook.service.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import irlquestbook.model.Page;
+import irlquestbook.model.Quest;
+import irlquestbook.model.QuestBook;
+import irlquestbook.model.Reward;
+import irlquestbook.model.Subtask;
+import irlquestbook.view.QuestBookView;
+import irlquestbook.view.QuestDetailView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -85,9 +87,15 @@ public class App extends Application {
         List<Quest> quests = List.of(quest1, quest2, quest3, quest4);
 
         Page page1 = new Page(quests, "Test page 1");
+        Page page2 = new Page(quests, "Test page 2");
+        Page page3 = new Page(quests, "Test page 3");
+
+
 
         List<Page> pages = new ArrayList<>();
         pages.add(page1);
+        pages.add(page2);
+        pages.add(page3);
 
         QuestBook questBook = new QuestBook(pages);
 
