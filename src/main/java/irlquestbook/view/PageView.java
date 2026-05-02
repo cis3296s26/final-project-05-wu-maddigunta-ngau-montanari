@@ -1,15 +1,17 @@
 package irlquestbook.view;
 
-import irlquestbook.model.*;
-
-import java.util.function.Consumer;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
+import irlquestbook.model.Page;
+import irlquestbook.model.Quest;
+import irlquestbook.model.Questline;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 
 public class PageView extends Pane {
+
     private Page page;
     private Label tooltip;
     private HashMap<Quest, QuestView> quests;
@@ -68,6 +70,11 @@ public class PageView extends Pane {
         line.endYProperty().bind(dV.layoutYProperty().add(15));
 
         return line;
+    }
+    // Add this getter so QuestBookView can identify the underlying data
+
+    public Page getPage() {
+        return this.page;
     }
 
 }

@@ -1,14 +1,14 @@
 package irlquestbook.view;
 
-import irlquestbook.model.*;
-
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.util.HashMap;
-
+import irlquestbook.model.Page;
+import irlquestbook.model.Quest;
+import irlquestbook.model.QuestBook;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ToggleButton;
