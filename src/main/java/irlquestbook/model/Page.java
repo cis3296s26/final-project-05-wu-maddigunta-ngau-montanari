@@ -44,8 +44,9 @@ public class Page {
     }
 
     public Quest handleQuestCreate(double x, double y) {
-        // TODO
-        System.out.println("create at: " + x + ", " + y);
+        Quest q = new Quest("", "", x, y);
+        Questline ql = new Questline("");
+
         return null;
     }
 
