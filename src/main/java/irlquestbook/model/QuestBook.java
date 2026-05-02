@@ -6,19 +6,19 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class QuestBook {
 
-    private final List<Page> pages;
+    private final ObservableList<Page> pages = FXCollections.observableArrayList();
     private final BooleanProperty editMode = new SimpleBooleanProperty(false);
     private final ObjectProperty<Tool> tool = new SimpleObjectProperty<>(Tool.NORMAL);
 
     public QuestBook() {
-        this.pages = FXCollections.observableArrayList();
     }
 
     public QuestBook(List<Page> pages) {
-        this.pages = pages;
+        this.pages.addAll(pages);
     }
 
     public BooleanProperty editModeProperty() {
@@ -37,7 +37,7 @@ public class QuestBook {
         return tool.get();
     }
 
-    public List<Page> getPages() {
+    public ObservableList<Page> getPages() {
         return this.pages;
     }
 
