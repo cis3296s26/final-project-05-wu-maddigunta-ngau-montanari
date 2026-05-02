@@ -64,6 +64,24 @@ public class App extends Application {
         quest3.addPrerequisite(quest2);
         quest4.addPrerequisite(quest3);
 
+                Quest quest5 = new Quest("test1", "test1", 50, 50);
+        Quest quest6 = new Quest("test2", "test2", 50, 100);
+        Quest quest7 = new Quest("test3", "test3", 100, 50);
+        Quest quest8 = new Quest("test4", "test4", 100, 100);
+
+        quest6.addPrerequisite(quest5);
+        quest7.addPrerequisite(quest6);
+        quest8.addPrerequisite(quest7);
+
+          Quest quest9 = new Quest("test1", "test1", 50, 50);
+        Quest quest10 = new Quest("test2", "test2", 50, 100);
+        Quest quest11 = new Quest("test3", "test3", 100, 50);
+        Quest quest12 = new Quest("test4", "test4", 100, 100);
+
+        quest10.addPrerequisite(quest9);
+        quest11.addPrerequisite(quest10);
+        quest12.addPrerequisite(quest11);
+
         Subtask sub1 = new Subtask("Test subtask 1");
         Subtask sub2 = new Subtask("Test subtask 2");
         Subtask sub3 = new Subtask("Test subtask 3");
@@ -85,8 +103,8 @@ public class App extends Application {
         quest4.addSubtask(sub4);
 
         List<Quest> quests1 = List.of(quest1, quest2, quest3, quest4);
-        List<Quest> quests2 = List.of(quest1, quest2, quest3, quest4);
-        List<Quest> quests3 = List.of(quest1, quest2, quest3, quest4);
+        List<Quest> quests2 = List.of(quest5, quest6, quest7, quest8);
+        List<Quest> quests3 = List.of(quest9, quest10, quest11, quest12);
 
         Page page1 = new Page(quests1, "Test page 1");
         Page page2 = new Page(quests2, "Test page 2");
