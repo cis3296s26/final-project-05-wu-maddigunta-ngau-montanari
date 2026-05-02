@@ -5,6 +5,7 @@ import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import irlquestbook.model.*;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -27,6 +28,15 @@ public class ToolbarView extends HBox {
                 qb.setTool((Tool) sel.getUserData());
             else
                 group.selectToggle(old);
+        });
+
+        qb.toolProperty().addListener((obs, old, val) -> {
+            for (Toggle t : group.getToggles()) {
+                if (t.getUserData() == val) {
+                    group.selectToggle(t);
+                    break;
+                }
+            }
         });
     }
 

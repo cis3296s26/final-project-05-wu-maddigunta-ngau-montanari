@@ -37,6 +37,13 @@ public class QuestBookView extends BorderPane {
             pages.put(page, view);
         }
 
+        // disable tool when exiting edit mode
+        qb.editModeProperty().addListener((obs, was, now) -> {
+            if (!now) {
+                qb.setTool(Tool.NORMAL);
+            }
+        });
+
         // create toggle button for edit mode
         ToggleButton editToggle = new ToggleButton();
         FontIcon pencil = new FontIcon(Feather.EDIT_2);

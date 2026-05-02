@@ -1,6 +1,10 @@
 package irlquestbook.model;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,6 +43,25 @@ public class Page {
         this.quests.remove(quest);
     }
 
+    private boolean wouldCreateCycle(Quest source, Quest dest) {
+        Set<Quest> visited = new HashSet<>();
+        Deque<Quest> stack = new ArrayDeque<>();
+        stack.push(source);
+        while (!stack.isEmpty()) {
+            Quest q = stack.pop();
+            if (q == dest) {
+                return true;
+            }
+            if (!visited.add(q)) {
+                continue;
+            }
+            for (Quest prereq : q.getPrereqs()) {
+                stack.push(prereq);
+            }
+        }
+        return false;
+    }
+
     public void handleQuestDelete(Quest quest) {
         this.getQuests().remove(quest);
         this.getQuests().forEach(other -> other.getPrereqs().remove(quest));
@@ -53,8 +76,17 @@ public class Page {
     }
 
     public void handleQuestConnect(Quest source, Quest dest) {
-        // TODO
-        System.out.println("connect: " + source + " -> " + dest);
+        // no self connections
+        if (source == dest)
+            return;
+        // no two-way connections
+        if (dest.getPrereqs().contains(source))
+            return;
+        // no cycles
+        if (wouldCreateCycle(source, dest))
+            return;
+
+        dest.getPrereqs().add(source);
     }
 
     public void handleConnectionDelete(Quest source, Quest dest) {

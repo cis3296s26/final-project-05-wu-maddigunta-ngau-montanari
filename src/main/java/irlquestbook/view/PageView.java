@@ -108,6 +108,7 @@ public class PageView extends Pane {
     }
 
     private void addConnection(Quest source, Quest dest) {
+        System.out.println("addConnection: source=" + source + " dest=" + dest + " keys=" + quests.keySet());
         Line line = drawConnection(source, dest);
         this.getChildren().add(line);
         line.toBack();
