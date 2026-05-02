@@ -5,11 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.javafx.FontIcon;
+
 import irlquestbook.model.Page;
 import irlquestbook.model.QuestBook;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
 public class SidebarView extends VBox {
@@ -51,18 +52,35 @@ public class SidebarView extends VBox {
     }
 
     private void addPageButton(Page page) {
+        // 1. Create the HBox container for the row
+        javafx.scene.layout.HBox row = new javafx.scene.layout.HBox(5); // 5px spacing
+        row.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        row.getStyleClass().add("sidebar-row");
+
+        // 2. The Page Button (Main click area)
         Button btn = new Button(page.pageName());
         btn.setOnAction(e -> select(page));
         btn.setMaxWidth(Double.MAX_VALUE);
         btn.getStyleClass().addAll("page-btn", "clickable");
+        // Make the button fill the HBox width
+        javafx.scene.layout.HBox.setHgrow(btn, javafx.scene.layout.Priority.ALWAYS);
 
-        ContextMenu menu = new ContextMenu();
-        MenuItem deleteItem = new MenuItem("Delete Page");
+        // 3. The Delete Icon (Button with Trash Icon)
+        Button deleteBtn = new Button();
+        FontIcon trashIcon = new FontIcon(Feather.TRASH_2);
+        deleteBtn.setGraphic(trashIcon);
+        trashIcon.setIconSize(16);
+        deleteBtn.getStyleClass().addAll("edit-toggle", "clickable");
 
-        deleteItem.setOnAction(e -> {
+        // Only show delete icons when in edit mode
+        deleteBtn.visibleProperty().bind(qb.editModeProperty());
+        deleteBtn.managedProperty().bind(qb.editModeProperty());
+
+        deleteBtn.setOnAction(e -> {
             qb.removePage(page);
-            this.getChildren().remove(btn);
+            this.getChildren().remove(row); // Remove the whole HBox
             pageButtons.remove(page);
+
             if (!qb.getPages().isEmpty()) {
                 select(qb.getPages().get(0));
             } else {
@@ -70,12 +88,13 @@ public class SidebarView extends VBox {
             }
         });
 
-        menu.getItems().add(deleteItem);
-        btn.setContextMenu(menu);
-        pageButtons.put(page, btn);
+        // 4. Assemble and Add to UI
+        row.getChildren().addAll(btn, deleteBtn);
+        pageButtons.put(page, btn); // Map the page to the button for selection styling
 
+        // Insert before the "+ Add Page" button
         int index = Math.max(0, this.getChildren().size() - 1);
-        this.getChildren().add(index, btn);
+        this.getChildren().add(index, row);
     }
 
     private void select(Page page) {

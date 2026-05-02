@@ -1,14 +1,14 @@
 package irlquestbook.view;
 
-import irlquestbook.model.*;
-
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.util.HashMap;
-
+import irlquestbook.model.Page;
+import irlquestbook.model.Quest;
+import irlquestbook.model.QuestBook;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ToggleButton;
@@ -17,7 +17,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class QuestBookView extends BorderPane {
-
     private HashMap<Page, PageView> pages;
     private StackPane stackPane;
     private PageView currentPage;
@@ -56,34 +55,13 @@ public class QuestBookView extends BorderPane {
         this.stackPane.setPadding(Insets.EMPTY);
 
         // create sidebar
-        // Inside QuestBookView constructor
         SidebarView sb = new SidebarView(qb, page -> {
-            // 1. If page is null (all pages deleted), clear the screen
-            if (page == null) {
-                stackPane.getChildren().remove(currentPage);
-                currentPage = null;
-                return;
-            }
-
-            // 2. Get the view from the map
             PageView newPage = pages.get(page);
-
-            // 3. LAZY LOADING: If the view doesn't exist yet (it's a newly added page), create it!
-            if (newPage == null) {
-                newPage = new PageView(page, onQuestClick);
-                pages.put(page, newPage);
-            }
-
-            // 4. Swap the views
-            if (currentPage != null) {
-                stackPane.getChildren().remove(currentPage);
-            }
-
-            // Add at index 0 so the edit button (index 1) stays on top
+            stackPane.getChildren().remove(currentPage);
             stackPane.getChildren().add(0, newPage);
             currentPage = newPage;
         });
-        
+
         sb.prefWidthProperty().bind(this.widthProperty().multiply(0.25));
         sb.setMinWidth(Region.USE_PREF_SIZE);
 
