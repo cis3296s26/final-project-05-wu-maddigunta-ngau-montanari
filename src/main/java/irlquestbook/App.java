@@ -82,16 +82,11 @@ public class App extends Application {
         quest3.addSubtask(sub3);
         quest4.addSubtask(sub4);
 
-        Questline questline = new Questline("test");
-        questline.addQuest(quest1);
-        questline.addQuest(quest2);
-        questline.addQuest(quest3);
-        questline.addQuest(quest4);
+        List<Quest> quests = List.of(quest1, quest2, quest3, quest4);
 
-        List<Questline> qls = List.of(questline);
-        Page page1 = new Page(qls, "Test page 1");
-        Page page2 = new Page(qls, "Test page 2");
-        Page page3 = new Page(qls, "Test page 3");
+        Page page1 = new Page(quests, "Test page 1");
+        Page page2 = new Page(quests, "Test page 2");
+        Page page3 = new Page(quests, "Test page 3");
 
         List<Page> pages = new ArrayList<>();
         pages.add(page1);
