@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 public class QuestBook {
     private List<Page> pages;
     private final BooleanProperty editMode = new SimpleBooleanProperty(false);
+    private final ObjectProperty<Tool> tool = new SimpleObjectProperty<>(Tool.NORMAL);
 
     public QuestBook() {
         this.pages = new ArrayList<>();
@@ -22,8 +25,16 @@ public class QuestBook {
         return editMode;
     }
 
+    public ObjectProperty<Tool> toolProperty() {
+        return tool;
+    }
+
     public boolean getEditMode() {
         return editMode.get();
+    }
+
+    public Tool getTool() {
+        return tool.get();
     }
 
     public List<Page> getPages() {
@@ -36,6 +47,10 @@ public class QuestBook {
 
     public void setEditMode(boolean value) {
         editMode.set(value);
+    }
+
+    public void setTool(Tool tool) {
+        this.tool.set(tool);
     }
 
     public void addPage(Page page) {

@@ -3,17 +3,19 @@ package irlquestbook.model;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-// TODO: repeat quests
 public class Quest {
     private int id;
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty description = new SimpleStringProperty("");
-    private double mapX, mapY;
+    private final DoubleProperty x = new SimpleDoubleProperty();
+    private final DoubleProperty y = new SimpleDoubleProperty();
 
     private final ObservableList<Quest> prereqs = FXCollections
             .observableArrayList((Quest q) -> new Observable[] { q.stateProperty() });
@@ -29,8 +31,8 @@ public class Quest {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name.set(name);
         this.description.set(description);
-        this.mapX = x;
-        this.mapY = y;
+        this.x.set(x);
+        this.y.set(y);
 
         // bind quest state to dependent properties
         state = Bindings.<QuestState>createObjectBinding(() -> {
@@ -73,6 +75,14 @@ public class Quest {
         return description;
     }
 
+    public DoubleProperty xProperty() {
+        return x;
+    }
+
+    public DoubleProperty yProperty() {
+        return y;
+    }
+
     // regular getters
     public String getName() {
         return name.get();
@@ -83,11 +93,11 @@ public class Quest {
     }
 
     public double getX() {
-        return this.mapX;
+        return this.x.get();
     }
 
     public double getY() {
-        return this.mapY;
+        return this.y.get();
     }
 
     public int getId() {
@@ -108,11 +118,11 @@ public class Quest {
 
     // regular setters
     public void setX(double x) {
-        this.mapX = x;
+        this.x.set(x);
     }
 
     public void setY(double y) {
-        this.mapY = y;
+        this.y.set(y);
     }
 
     public void setName(String value) {
@@ -148,5 +158,4 @@ public class Quest {
     public void removeReward(Reward reward) {
         rewards.remove(reward);
     }
-
 }

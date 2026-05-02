@@ -234,3 +234,8 @@
     -fx-padding: 0;
     -fx-shape: null;
 }
+
+.connect-pending {
+    -fx-border-color: -hex-accent-primary;
+    -fx-border-width: 3;
+}

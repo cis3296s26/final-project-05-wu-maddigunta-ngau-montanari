@@ -36,10 +36,8 @@ public class QuestView extends StackPane {
         updateStateClass(quest.stateProperty().get());
 
         // bind pos to quest pos
-        layoutXProperty().addListener((obs, oldVal, newVal) -> quest.setX(newVal.doubleValue()));
-        layoutYProperty().addListener((obs, oldVal, newVal) -> quest.setY(newVal.doubleValue()));
-        this.setLayoutX(this.quest.getX());
-        this.setLayoutY(this.quest.getY());
+        layoutXProperty().bind(quest.xProperty());
+        layoutYProperty().bind(quest.yProperty());
 
         // handlers for dragging
         this.setOnMousePressed(event -> {
@@ -53,8 +51,8 @@ public class QuestView extends StackPane {
         });
 
         this.setOnMouseDragged(event -> {
-            this.setLayoutX(event.getSceneX() - this.offsetX);
-            this.setLayoutY(event.getSceneY() - this.offsetY);
+            quest.setX(event.getSceneX() - this.offsetX);
+            quest.setY(event.getSceneY() - this.offsetY);
         });
 
         this.setOnMouseReleased(event -> {

@@ -31,11 +31,18 @@ public class QuestBookView extends BorderPane {
         // create pageviews for pages and add to map
         for (Page page : qb.getPages()) {
             // setup view
-            PageView view = new PageView(page, onQuestClick);
+            PageView view = new PageView(page, qb, onQuestClick);
 
             // add to hashmap
             pages.put(page, view);
         }
+
+        // disable tool when exiting edit mode
+        qb.editModeProperty().addListener((obs, was, now) -> {
+            if (!now) {
+                qb.setTool(Tool.NORMAL);
+            }
+        });
 
         // create toggle button for edit mode
         ToggleButton editToggle = new ToggleButton();
@@ -48,10 +55,19 @@ public class QuestBookView extends BorderPane {
         editToggle.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
         editToggle.selectedProperty().bindBidirectional(qb.editModeProperty());
 
+        // create toolbar
+        ToolbarView toolbar = new ToolbarView(qb);
+        toolbar.visibleProperty().bind(qb.editModeProperty());
+        toolbar.managedProperty().bind(qb.editModeProperty());
+        toolbar.setMaxWidth(Region.USE_PREF_SIZE);
+        toolbar.setMaxHeight(Region.USE_PREF_SIZE);
+
         // add it to stackpane
-        this.stackPane.getChildren().add(editToggle);
+        this.stackPane.getChildren().addAll(editToggle, toolbar);
+        StackPane.setAlignment(toolbar, Pos.TOP_CENTER);
         StackPane.setAlignment(editToggle, Pos.TOP_RIGHT);
         StackPane.setMargin(editToggle, new Insets(12));
+        StackPane.setMargin(toolbar, new Insets(12));
         this.stackPane.setPadding(Insets.EMPTY);
 
         // create sidebar
@@ -68,4 +84,5 @@ public class QuestBookView extends BorderPane {
         // add sidebar to borderpane
         this.setLeft(sb);
     }
+
 }
