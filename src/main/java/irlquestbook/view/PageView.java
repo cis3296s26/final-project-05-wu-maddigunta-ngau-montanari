@@ -4,7 +4,9 @@ import irlquestbook.model.*;
 
 import java.util.function.Consumer;
 import java.util.HashMap;
+import java.util.Map;
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -12,13 +14,33 @@ import javafx.scene.shape.Line;
 public class PageView extends Pane {
     private Page page;
     private Label tooltip;
-    private HashMap<Quest, QuestView> quests;
+    private final Map<Quest, QuestView> quests = new HashMap<>();
+    private final Map<Connection, Line> connections = new HashMap<>();
+
+    private record Connection(Quest source, Quest dest) {
+    }
+
     private QuestBook qb;
     private Quest pendingSource = null;
+    private final Consumer<Quest> onQuestClick;
 
     public PageView(Page page, QuestBook qb, Consumer<Quest> onQuestClick) {
         this.page = page;
         this.qb = qb;
+
+        this.onQuestClick = quest -> {
+            switch (qb.getTool()) {
+                case NORMAL -> onQuestClick.accept(quest);
+                case CREATE -> {
+                }
+                case DELETE -> {
+                    page.handleQuestDelete(quest);
+                }
+                case CONNECT -> {
+                    handleConnect(quest);
+                }
+            }
+        };
 
         // setup tooltip
         this.tooltip = new Label();
@@ -26,9 +48,6 @@ public class PageView extends Pane {
         this.tooltip.setMouseTransparent(true);
         this.tooltip.setVisible(false);
         this.getChildren().add(this.tooltip);
-
-        // setup quests hashmap
-        this.quests = new HashMap<>();
 
         // styling
         this.getStyleClass().add("page");
@@ -40,37 +59,64 @@ public class PageView extends Pane {
         });
 
         // create views for each quest
-        for (Quest q : page.getQuests()) {
-            // create Questview
-            QuestView view = new QuestView(q, this.tooltip, quest -> {
-                switch (qb.getTool()) {
-                    case NORMAL -> onQuestClick.accept(quest);
-                    case CREATE -> {
-                    }
-                    case DELETE -> {
-                        page.handleQuestDelete(quest);
-                    }
-                    case CONNECT -> {
-                        handleConnect(quest);
-                    }
-                }
-            });
+        page.getQuests().forEach(this::addQuestView);
 
-            // add it to the hashmap
-            quests.put(q, view);
-
-            // add it to pane
-            this.getChildren().add(view);
-        }
+        // add listener for quests
+        page.getQuests().addListener((ListChangeListener<Quest>) change -> {
+            while (change.next()) {
+                change.getRemoved().forEach(this::removeQuestView);
+                change.getAddedSubList().forEach(this::addQuestView);
+            }
+        });
 
         // link up questviews
-        for (Quest q : page.getQuests()) {
-            for (Quest prev : q.getPrereqs()) {
-                Line line = drawConnection(q, prev);
-                this.getChildren().add(line);
-                line.toBack();
+        page.getQuests().forEach(dest -> dest.getPrereqs().forEach(src -> addConnection(src, dest)));
+    }
+
+    private void addQuestView(Quest q) {
+        // create Questview
+        QuestView view = new QuestView(q, this.tooltip, this.onQuestClick);
+
+        // add it to the hashmap
+        quests.put(q, view);
+
+        // add it to pane
+        this.getChildren().add(view);
+
+        // add listener for connections
+        q.getPrereqs().addListener((ListChangeListener<Quest>) change -> {
+            while (change.next()) {
+                change.getRemoved().forEach(removed -> removeConnection(removed, q));
+                change.getAddedSubList().forEach(added -> addConnection(added, q));
             }
-        }
+        });
+    }
+
+    private void removeQuestView(Quest q) {
+        QuestView view = quests.remove(q);
+        this.getChildren().remove(view);
+
+        connections.entrySet().removeIf(entry -> {
+            Connection c = entry.getKey();
+            if (c.source() == q || c.dest() == q) {
+                this.getChildren().remove(entry.getValue());
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    private void addConnection(Quest source, Quest dest) {
+        Line line = drawConnection(source, dest);
+        this.getChildren().add(line);
+        line.toBack();
+        connections.put(new Connection(source, dest), line);
+    }
+
+    private void removeConnection(Quest source, Quest dest) {
+        Line line = connections.remove(new Connection(source, dest));
+        this.getChildren().remove(line);
     }
 
     private Line drawConnection(Quest source, Quest dest) {

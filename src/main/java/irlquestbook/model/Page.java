@@ -1,19 +1,20 @@
 package irlquestbook.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Page {
-    private List<Quest> quests;
+    private final ObservableList<Quest> quests = FXCollections.observableArrayList();
     private String name;
 
     public Page() {
-        this.quests = new ArrayList<>();
         this.name = "";
     }
 
-    public Page(List<Quest> quest, String name) {
-        this.quests = quest;
+    public Page(List<Quest> quests, String name) {
+        this.quests.addAll(quests);
         this.name = name;
     }
 
@@ -26,7 +27,7 @@ public class Page {
         return name;
     }
 
-    public List<Quest> getQuests() {
+    public ObservableList<Quest> getQuests() {
         return quests;
     }
 
@@ -39,15 +40,16 @@ public class Page {
     }
 
     public void handleQuestDelete(Quest quest) {
-        // TODO
-        System.out.println("delete: " + quest);
+        this.getQuests().remove(quest);
+        this.getQuests().forEach(other -> other.getPrereqs().remove(quest));
     }
 
     public Quest handleQuestCreate(double x, double y) {
         Quest q = new Quest("", "", x, y);
-        Questline ql = new Questline("");
 
-        return null;
+        addQuest(q);
+
+        return q;
     }
 
     public void handleQuestConnect(Quest source, Quest dest) {
