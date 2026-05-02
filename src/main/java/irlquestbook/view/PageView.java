@@ -150,7 +150,7 @@ public class PageView extends Pane {
 
         line.setOnMouseClicked(e -> {
             if (qb.getTool() == Tool.DELETE) {
-                dest.getPrereqs().remove(source);
+                page.handleConnectionDelete(source, dest);
             }
         });
 

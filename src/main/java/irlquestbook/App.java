@@ -2,7 +2,6 @@ package irlquestbook;
 
 import irlquestbook.model.*;
 import irlquestbook.view.*;
-import irlquestbook.service.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,20 +1,20 @@
 package irlquestbook.model;
 
-import java.util.ArrayList;
 import java.util.List;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 
 public class QuestBook {
-    private List<Page> pages;
+
+    private final List<Page> pages;
     private final BooleanProperty editMode = new SimpleBooleanProperty(false);
     private final ObjectProperty<Tool> tool = new SimpleObjectProperty<>(Tool.NORMAL);
 
     public QuestBook() {
-        this.pages = new ArrayList<>();
+        this.pages = FXCollections.observableArrayList();
     }
 
     public QuestBook(List<Page> pages) {
@@ -22,7 +22,7 @@ public class QuestBook {
     }
 
     public BooleanProperty editModeProperty() {
-        return editMode;
+        return this.editMode;
     }
 
     public ObjectProperty<Tool> toolProperty() {
@@ -30,7 +30,7 @@ public class QuestBook {
     }
 
     public boolean getEditMode() {
-        return editMode.get();
+        return this.editMode.get();
     }
 
     public Tool getTool() {
@@ -46,7 +46,7 @@ public class QuestBook {
     }
 
     public void setEditMode(boolean value) {
-        editMode.set(value);
+        this.editMode.set(value);
     }
 
     public void setTool(Tool tool) {

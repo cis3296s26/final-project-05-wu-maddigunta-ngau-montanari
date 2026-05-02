@@ -10,5 +10,4 @@ module irlquestbook {
     exports irlquestbook;
     exports irlquestbook.model;
     exports irlquestbook.view;
-    exports irlquestbook.service;
 }

@@ -8,27 +8,31 @@ import java.util.Set;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Page {
     private final ObservableList<Quest> quests = FXCollections.observableArrayList();
-    private String name;
+    private final StringProperty name = new SimpleStringProperty("");
 
     public Page() {
-        this.name = "";
     }
 
     public Page(List<Quest> quests, String name) {
         this.quests.addAll(quests);
-        this.name = name;
+        this.name.set(name);
     }
 
-    public String getName() {
+    public StringProperty nameProperty() {
         return this.name;
     }
 
-    public String setName(String name) {
-        this.name = name;
-        return name;
+    public String getName() {
+        return this.name.get();
+    }
+
+    public void setName(String name) {
+        this.name.set(name);
     }
 
     public ObservableList<Quest> getQuests() {
@@ -90,8 +94,6 @@ public class Page {
     }
 
     public void handleConnectionDelete(Quest source, Quest dest) {
-        // TODO
-
-        System.out.println("disconnect: " + source + " -> " + dest);
+        dest.getPrereqs().remove(source);
     }
 }
