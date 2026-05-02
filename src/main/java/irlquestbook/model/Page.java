@@ -1,27 +1,29 @@
 package irlquestbook.model;
 import java.util.List;
 
+import javafx.beans.property.StringProperty;
+
 public class Page {
 
 	// list of questlines that are on this page
 	private List<Questline> questlines;
-	private String title;
+	private StringProperty title;
 
 	// constructor to initialize the page object
-	public Page(List<Questline> questlines, String title) {
+	public Page(List<Questline> questlines, StringProperty title) {
 		this.questlines = questlines;
 		this.title = title;
 	}
 
 	// method to return the title of the page
-	public String pageName() {
-		return this.title;
-	}
+    public StringProperty pageNameProperty() {
+        return this.title;
+    }
+
 
 	// method to set the title of the page
-	public String setPageName(String title) {
+	public void setPageName(StringProperty title) {
 		this.title = title;
-		return title;
 	}
 
 	// method quest getter 

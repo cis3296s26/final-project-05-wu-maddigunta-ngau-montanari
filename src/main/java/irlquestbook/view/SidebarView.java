@@ -38,7 +38,7 @@ public class SidebarView extends VBox {
         addPageBtn.managedProperty().bind(qb.editModeProperty());
 
         addPageBtn.setOnAction(e -> {
-            Page newPage = new Page(new ArrayList<>(), "New Page");
+            Page newPage = new Page(new ArrayList<>(), new javafx.beans.property.SimpleStringProperty("New Page"));
             qb.addPage(newPage);
             addPageButton(newPage);
             select(newPage);
@@ -58,19 +58,32 @@ public class SidebarView extends VBox {
         row.getStyleClass().add("sidebar-row");
 
         // 2. The Page Button (Main click area)
-        Button btn = new Button(page.pageName());
+        Button btn = new Button(page.pageNameProperty().get());
+
+        btn.textProperty().bindBidirectional(page.pageNameProperty());
         btn.setOnAction(e -> select(page));
         btn.setMaxWidth(Double.MAX_VALUE);
         btn.getStyleClass().addAll("page-btn", "clickable");
-        // Make the button fill the HBox width
         javafx.scene.layout.HBox.setHgrow(btn, javafx.scene.layout.Priority.ALWAYS);
+        btn.visibleProperty().bind(qb.editModeProperty().not());
+        btn.managedProperty().bind(qb.editModeProperty().not());
+
+        javafx.scene.control.TextField nameField = new javafx.scene.control.TextField();
+        nameField.textProperty().bindBidirectional(page.pageNameProperty());
+        nameField.getStyleClass().add("text-field");
+        nameField.setOnAction(e -> qb.setEditMode(false));
+        javafx.scene.layout.HBox.setHgrow(nameField, javafx.scene.layout.Priority.ALWAYS);
+
+        // Show field only when editing
+        nameField.visibleProperty().bind(qb.editModeProperty());
+        nameField.managedProperty().bind(qb.editModeProperty());
 
         // 3. The Delete Icon (Button with Trash Icon)
         Button deleteBtn = new Button();
         FontIcon trashIcon = new FontIcon(Feather.TRASH_2);
         deleteBtn.setGraphic(trashIcon);
         trashIcon.setIconSize(16);
-        deleteBtn.getStyleClass().addAll("edit-toggle", "clickable");
+        deleteBtn.getStyleClass().addAll("close-btn", "clickable");
 
         // Only show delete icons when in edit mode
         deleteBtn.visibleProperty().bind(qb.editModeProperty());
@@ -89,7 +102,7 @@ public class SidebarView extends VBox {
         });
 
         // 4. Assemble and Add to UI
-        row.getChildren().addAll(btn, deleteBtn);
+        row.getChildren().addAll(btn, nameField, deleteBtn);
         pageButtons.put(page, btn); // Map the page to the button for selection styling
 
         // Insert before the "+ Add Page" button
