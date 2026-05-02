@@ -3,19 +3,20 @@ package irlquestbook.model;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.ObjectBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
+// TODO: repeat quests
 public class Quest {
     private int id;
     private final StringProperty name = new SimpleStringProperty("");
     private final StringProperty description = new SimpleStringProperty("");
-    private final DoubleProperty x = new SimpleDoubleProperty();
-    private final DoubleProperty y = new SimpleDoubleProperty();
+    private final DoubleProperty mapX = new SimpleDoubleProperty(0);
+    private final DoubleProperty mapY = new SimpleDoubleProperty(0);
 
     private final ObservableList<Quest> prereqs = FXCollections
             .observableArrayList((Quest q) -> new Observable[] { q.stateProperty() });
@@ -31,8 +32,8 @@ public class Quest {
         this.id = 0; // we can set id when we have a database with auto-increment
         this.name.set(name);
         this.description.set(description);
-        this.x.set(x);
-        this.y.set(y);
+        this.mapX.set(x);
+        this.mapY.set(y);
 
         // bind quest state to dependent properties
         state = Bindings.<QuestState>createObjectBinding(() -> {
@@ -75,14 +76,6 @@ public class Quest {
         return description;
     }
 
-    public DoubleProperty xProperty() {
-        return x;
-    }
-
-    public DoubleProperty yProperty() {
-        return y;
-    }
-
     // regular getters
     public String getName() {
         return name.get();
@@ -93,11 +86,19 @@ public class Quest {
     }
 
     public double getX() {
-        return this.x.get();
+        return this.mapX.get();
+    }
+
+    public DoubleProperty xProperty() {
+        return this.mapX;
     }
 
     public double getY() {
-        return this.y.get();
+        return this.mapY.get();
+    }
+    
+    public DoubleProperty yProperty() {
+        return this.mapY;
     }
 
     public int getId() {
@@ -118,11 +119,11 @@ public class Quest {
 
     // regular setters
     public void setX(double x) {
-        this.x.set(x);
+        this.mapX.set(x);
     }
 
     public void setY(double y) {
-        this.y.set(y);
+        this.mapY.set(y);
     }
 
     public void setName(String value) {
@@ -158,4 +159,5 @@ public class Quest {
     public void removeReward(Reward reward) {
         rewards.remove(reward);
     }
+
 }

@@ -1,38 +1,41 @@
 package irlquestbook.model;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Page {
-    private final ObservableList<Quest> quests = FXCollections.observableArrayList();
-    private String name;
+
+    private final ObservableList<Quest> quests;
+	private StringProperty name;
 
     public Page() {
-        this.name = "";
+        this.quests = FXCollections.observableArrayList();
+        this.name = new javafx.beans.property.SimpleStringProperty("");
     }
 
-    public Page(List<Quest> quests, String name) {
-        this.quests.addAll(quests);
-        this.name = name;
+    public Page(List<Quest> quest, String name) {
+        this.quests = FXCollections.observableArrayList(quest);
+        this.name = new javafx.beans.property.SimpleStringProperty(name);
     }
 
-    public String getName() {
+    public StringProperty getName() {
         return this.name;
     }
 
-    public String setName(String name) {
-        this.name = name;
-        return name;
+    public void setName(String name) {
+        this.name.set(name);
     }
 
     public ObservableList<Quest> getQuests() {
-        return quests;
+        return this.quests;
     }
 
     public void addQuest(Quest quest) {
@@ -63,8 +66,8 @@ public class Page {
     }
 
     public void handleQuestDelete(Quest quest) {
-        this.getQuests().remove(quest);
-        this.getQuests().forEach(other -> other.getPrereqs().remove(quest));
+        this.quests.remove(quest);
+        this.quests.forEach(other -> other.getPrereqs().remove(quest));
     }
 
     public Quest handleQuestCreate(double x, double y) {

@@ -1,14 +1,15 @@
 package irlquestbook.view;
 
-import irlquestbook.model.*;
-
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.util.HashMap;
-
+import irlquestbook.model.Page;
+import irlquestbook.model.Quest;
+import irlquestbook.model.QuestBook;
+import irlquestbook.model.Tool;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ToggleButton;
@@ -17,6 +18,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 
 public class QuestBookView extends BorderPane {
+
     private HashMap<Page, PageView> pages;
     private StackPane stackPane;
     private PageView currentPage;
@@ -72,8 +74,21 @@ public class QuestBookView extends BorderPane {
 
         // create sidebar
         SidebarView sb = new SidebarView(qb, page -> {
+            if (page == null) {
+                stackPane.getChildren().remove(currentPage);
+                currentPage = null;
+                return;
+            }
             PageView newPage = pages.get(page);
-            stackPane.getChildren().remove(currentPage);
+            if (newPage == null) {
+                newPage = new PageView(page, qb, onQuestClick);
+                pages.put(page, newPage);
+            }
+
+            // 4. Swap the views
+            if (currentPage != null) {
+                stackPane.getChildren().remove(currentPage);
+            }
             stackPane.getChildren().add(0, newPage);
             currentPage = newPage;
         });

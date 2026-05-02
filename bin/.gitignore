@@ -1,0 +1,16 @@
+/target/
+
+*.class
+
+.idea/
+*.iml
+
+.DS_Store
+
+.settings/
+.classpath
+.project
+.vscode/
+
+.envrc
+.direnv/
