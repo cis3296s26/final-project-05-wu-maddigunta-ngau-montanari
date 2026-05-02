@@ -32,27 +32,24 @@ public class PageView extends Pane {
         // styling
         this.getStyleClass().add("page");
 
-        // iterate through questlines (page) and create QuestViews
-        for (Questline ql : this.page.getQuestlines()) {
-            // create views for each quest in questline
-            for (Quest q : ql.getQuests()) {
-                // create Questview
-                QuestView view = new QuestView(q, this.tooltip, onQuestClick);
+        // create views for each quest in questline
+        for (Quest q : page.getQuests()) {
+            // create Questview
+            QuestView view = new QuestView(q, this.tooltip, onQuestClick);
 
-                // add it to the hashmap
-                quests.put(q, view);
+            // add it to the hashmap
+            quests.put(q, view);
 
-                // add it to pane
-                this.getChildren().add(view);
-            }
+            // add it to pane
+            this.getChildren().add(view);
+        }
 
-            // link up questviews
-            for (Quest q : ql.getQuests()) {
-                for (Quest prev : q.getPrereqs()) {
-                    Line line = connect(q, prev);
-                    this.getChildren().add(line);
-                    line.toBack();
-                }
+        // link up questviews
+        for (Quest q : page.getQuests()) {
+            for (Quest prev : q.getPrereqs()) {
+                Line line = connect(q, prev);
+                this.getChildren().add(line);
+                line.toBack();
             }
         }
     }
