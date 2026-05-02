@@ -22,7 +22,7 @@ public class SidebarView extends VBox {
 
         // set up each button
         qb.getPages().forEach(page -> {
-            Button btn = new Button(page.pageName());
+            Button btn = new Button(page.getName());
             btn.setOnAction(e -> this.select(page));
             btn.setMaxWidth(Double.MAX_VALUE);
             btn.getStyleClass().addAll("page-btn", "clickable");

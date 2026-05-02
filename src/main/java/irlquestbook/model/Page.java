@@ -1,41 +1,41 @@
 package irlquestbook.model;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Page {
 
-	// list of questlines that are on this page
-	private List<Questline> questlines;
-	private String title;
+    private List<Quest> quests;
+    private String name;
 
-	// constructor to initialize the page object
-	public Page(List<Questline> questlines, String title) {
-		this.questlines = questlines;
-		this.title = title;
-	}
+    public Page() {
+        this.quests = new ArrayList<>();
+        this.name = "";
+    }
 
-	// method to return the title of the page
-	public String pageName() {
-		return this.title;
-	}
+    public Page(List<Quest> quest, String name) {
+        this.quests = quest;
+        this.name = name;
+    }
 
-	// method to set the title of the page
-	public String setPageName(String title) {
-		this.title = title;
-		return title;
-	}
+    public String getName() {
+        return this.name;
+    }
 
-	// method quest getter 
-	public List<Questline> getQuestlines() {
-		return questlines;
-	}
+    public String setName(String name) {
+        this.name = name;
+        return name;
+    }
 
-	// add questline to the page
-	public void addQuestline(Questline questline) {
-		this.questlines.add(questline);
-	}
+    public List<Quest> getQuests() {
+        return quests;
+    }
 
-	// remove questline from the page
-	public void removeQuestline(Questline questline) {
-		this.questlines.remove(questline);
-	}
+    public void addQuest(Quest quest) {
+        this.quests.add(quest);
+    }
+
+    public void removeQuest(Quest quest) {
+        this.quests.remove(quest);
+    }
 }
