@@ -31,7 +31,7 @@ public class QuestBookView extends BorderPane {
         // create pageviews for pages and add to map
         for (Page page : qb.getPages()) {
             // setup view
-            PageView view = new PageView(page, onQuestClick);
+            PageView view = new PageView(page, qb, onQuestClick);
 
             // add to hashmap
             pages.put(page, view);
@@ -77,4 +77,5 @@ public class QuestBookView extends BorderPane {
         // add sidebar to borderpane
         this.setLeft(sb);
     }
+
 }
